@@ -1,2 +1,2 @@
 # profile
-l love sonnet 5
+a.i slop fr
