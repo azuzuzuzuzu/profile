@@ -20,19 +20,21 @@ trail2.png            -> Ảnh trail số 2 (có thể thêm nhiều)
 
 3. FILE CONFIG (QUAN TRỌNG - sửa ở đây)
 ---------------------------------------
-Mở file bằng Notepad / VS Code, sửa block CONFIG ở DÒNG 17-90:
+Mở file bằng Notepad / VS Code, sửa block CONFIG ở đầu file (trong <script>):
 
     const CONFIG = {
-      discord:    { userId: '...' },                // ID Discord
-      profile:    { username, kanji, tagline },   // Tên + tagline
-      avatar:     { url, decor, size: { desktop, tablet, small } },
+      discord:    { userId: '...' },                          // ID Discord
+      profile:    { username, kanji, tagline },               // Tên + tagline
       fonts:      { username, kanji, tagline, badge, activity, footer, body, enterText, googleFonts },
-      sakura:     { enabled: false, count, colors },
+      gradient:   { preset, custom, name, pinkGrad, badgeBorder }, // Mau gradient cho username/badge
+      avatar:     { url, decor, size: { desktop, tablet, small } },
+      sakura:     { enabled, count, colors },
       trail:      { enabled, images, maxOnScreen, size, followSpeed },
-      background: { video, showVideo },
+      background: { video, showVideo, fit, position, scale }, // fit/position/scale: control video
       links:      [ { label, url }, ... ],
-      fallbackActivity: { ... },
-      taglineMessages: [ ... ]
+      fallbackActivity: { enabled, type, title, sub, image, style },
+      taglineMessages: [ 'string' | { text, color | gradient } ],
+      taglineColors:  { eachDifferentColor, palette, singleColor }
     };
 
 4. CÁC VIỆC THƯỜNG LÀM
@@ -45,8 +47,12 @@ Mở file bằng Notepad / VS Code, sửa block CONFIG ở DÒNG 17-90:
 - BẬT/TẮT TRAIL: CONFIG.trail.enabled = true/false
 - THÊM ẢNH TRAIL: thêm đường dẫn file vào CONFIG.trail.images[]
 - ĐỔI VIDEO NỀN: sửa CONFIG.background.video
+- CHỈNH CÁCH VIDEO HIỂN THỊ: CONFIG.background.fit/position/scale
 - ĐỔI TAGLINE XOAY VÒNG: sửa CONFIG.taglineMessages[]
+- ĐỔI MÀU TAGLINE: sửa CONFIG.taglineColors (xem mục 10)
+- ĐỔI MÀU USERNAME/BADGE: sửa CONFIG.gradient (xem mục 11)
 - ĐỔI FALLBACK KHI OFFLINE: sửa CONFIG.fallbackActivity
+- ĐỔI MÀU TỪNG DÒNG FALLBACK: sửa CONFIG.fallbackActivity.style (xem mục 12)
 - ĐỔI KÍCH CỠ AVATAR: sửa CONFIG.avatar.size (desktop/tablet/small)
 
 5. ĐỔI FONT / KÍCH CỠ CHỮ (CONFIG.fonts)
@@ -103,6 +109,24 @@ Các biến CSS tương ứng (--fs-*) sẽ tự động cập nhật từ CONFI
 [!] WebSocket Lanyard liên tục reconnect?
     -> Bình thường. WebSocket tự reconnect sau 5s nếu mất kết nối.
 
+[!] Video bị crop mất 2 cạnh?
+    -> Đổi CONFIG.background.fit sang 'contain' hoặc 'actual'.
+    -> Hoặc giảm CONFIG.background.scale (vd: 0.7 = thu nhỏ 70%).
+
+[!] Video quá nhỏ, có viền đen lớn?
+    -> Tăng CONFIG.background.scale (vd: 1.3 = phóng to 130%).
+    -> Hoặc đổi fit = 'cover' để phủ kín (sẽ crop).
+
+[!] Gradient username không hiện?
+    -> Kiểm tra CONFIG.gradient.preset có nằm trong danh sách hợp lệ.
+    -> Nếu dùng 'custom', nhớ nhập chuỗi CSS gradient vào CONFIG.gradient.custom.
+    -> Trong custom phải chứa "gradient(" (vd: linear-gradient / radial-gradient).
+
+[!] Tagline không đổi màu?
+    -> Kiểm tra CONFIG.taglineColors.palette có phần tử (không được []).
+    -> Mỗi entry phải là string: '#hex' hoặc 'linear-gradient(...)'.
+    -> Nếu mỗi dòng tự override, đảm bảo field là 'color' hoặc 'gradient' (không phải 'c').
+
 9. CẤU TRÚC FILE
 ----------------
 - Phần <head>: CSS + CONFIG block
@@ -110,6 +134,117 @@ Các biến CSS tương ứng (--fs-*) sẽ tự động cập nhật từ CONFI
 - Phần <script>: Toàn bộ logic (không cần sửa)
 
 Để thêm tính năng mới, sửa trong CONFIG và thêm CSS/HTML tương ứng.
+
+10. CHỈNH VIDEO NỀN (CONFIG.background)
+---------------------------------------
+    background: {
+      video: 'b.mp4',                  // Đường dẫn file video
+      showVideo: true,                 // Bật/tắt video nền
+      fit:    'actual',                // 'cover' | 'contain' | 'actual'
+      position: 'center',              // 'center' | 'top' | 'bottom' | 'left' | 'right' | 'top-left' | ...
+      scale:  0.70,                    // Phóng to/thu nhỏ (1 = giữ nguyên)
+    }
+
+  - fit = 'cover'   : phủ kín màn hình (mặc định, có thể crop 2 cạnh).
+  - fit = 'contain' : hiện toàn bộ video (có thể có viền đen 2 bên).
+  - fit = 'actual'  : kích thước thật 1:1 pixel của video.
+  - position: vị trí video khi còn khoảng trống (chỉ áp dụng khi fit != 'actual').
+  - scale: nhân thêm với kích thước video (0.7 = thu nhỏ còn 70%, 1.3 = phóng to 130%).
+
+  Ví dụ: muốn video ở giữa, không crop, thu nhỏ 70%:
+      fit: 'contain', position: 'center', scale: 0.7
+
+11. CHỈNH GRADIENT / MÀU USERNAME + BADGE (CONFIG.gradient)
+-----------------------------------------------------------
+Có 6 preset sẵn, hoặc tự custom:
+
+    gradient: {
+      preset: 'sunset',    // 'sakuraGray' | 'pinkNeon' | 'gold' | 'ocean' | 'sunset' | 'mono' | 'custom'
+      custom: '',          // Chỉ dùng khi preset = 'custom'
+      name: '',            // Override riêng cho username
+      pinkGrad: '',        // Override riêng cho kanji/tagline/badge
+      badgeBorder: '',     // Viền badge
+    }
+
+  Mô tả preset:
+    sakuraGray - hồng sakura + xám (mặc định)
+    pinkNeon   - hồng neon rực rỡ
+    gold       - vàng đồng sang trọng
+    ocean      - xanh biển sâu
+    sunset     - cam + tím
+    mono       - trắng + xám đơn giản
+    custom     - tự định nghĩa (nhập CSS gradient vào custom)
+
+  Ví dụ dùng custom gradient:
+      gradient: {
+        preset: 'custom',
+        custom: 'linear-gradient(90deg, #ff6, #f0f, #6ff)',
+      }
+
+  Ví dụ override riêng username nhưng giữ preset:
+      gradient: {
+        preset: 'sakuraGray',
+        name: 'linear-gradient(90deg, #ff4d6d, #ffd166)',
+      }
+
+12. ĐỔI MÀU TAGLINE XOAY VÒNG (CONFIG.taglineMessages + taglineColors)
+----------------------------------------------------------------------
+Mỗi dòng trong taglineMessages có thể là:
+  - string đơn:         '404: motivation not found.'
+  - object có color:    { text: '...', color: '#ff6b9d' }
+  - object có gradient: { text: '...', gradient: 'linear-gradient(90deg, #ff4d6d, #ffd166)' }
+
+  Nếu dòng không khai báo màu, sẽ dùng theo CONFIG.taglineColors:
+
+    taglineColors: {
+      eachDifferentColor: true,        // true = mỗi dòng 1 màu, false = chung 1 màu
+      palette: [                        // Danh sách màu (lặp lại nếu thiếu)
+        '#ff6b9d',
+        'linear-gradient(90deg, #ff4d6d, #ffd166)',
+        '#6effc6',
+        // ...
+      ],
+      singleColor: '#f4cdd4',          // Dùng khi eachDifferentColor = false
+    }
+
+  Ví dụ mỗi dòng 1 màu:
+      eachDifferentColor: true,
+      palette: ['#ff6b9d', '#6effc6', '#b967ff']
+
+  Ví dụ tất cả cùng 1 gradient:
+      eachDifferentColor: false,
+      singleColor: 'linear-gradient(90deg, #ff4d6d, #ffd166)'
+
+  Ví dụ mỗi dòng tự override màu riêng (bỏ qua palette):
+      taglineMessages: [
+        { text: 'Câu 1', color: '#ff6b9d' },
+        { text: 'Câu 2', gradient: 'linear-gradient(90deg, #56ccf2, #2c7da0)' },
+        'Câu 3 (không set -> dùng palette/singleColor)',
+      ]
+
+13. ĐỔI MÀU TỪNG DÒNG ACTIVITY FALLBACK (CONFIG.fallbackActivity.style)
+-----------------------------------------------------------------------
+3 dòng = 3 trường: type, title, sub. Mỗi trường nhận:
+  - solid color: '#ffb7c5'
+  - gradient:    'linear-gradient(90deg, #ff4d6d, #ffd166)'
+  - '' (rỗng) hoặc null: giữ nguyên màu CSS mặc định.
+
+    fallbackActivity: {
+      type:  'Doing nothing..',
+      title: 'Ở dưới là một dòng chữ',
+      sub:   'Ở trên là một dòng chữ khác.',
+      image: '...',
+      style: {
+        type:  '#ff6b9d',                                              // solid
+        title: 'linear-gradient(90deg, #ff4d6d, #ffd166)',             // gradient
+        sub:   'linear-gradient(90deg, #56ccf2, #2c7da0)',             // gradient
+      },
+    }
+
+  Lưu ý:
+  - Không cần flag "useGradient" — JS tự detect chuỗi có "gradient(" là gradient.
+  - Để trống 1 trường -> giữ CSS mặc định (vd: 'gradient mặc định nâu hồng' của .ac-type).
+  - Có thể trộn solid + gradient + để trống tuỳ ý.
 
 ================================================================
 EOF - Chúc bạn dùng vui vẻ!

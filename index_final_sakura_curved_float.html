@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>超ニート // HiyVipPro_123</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preload" href="yournameedit.mp4" as="video" type="video/mp4">
+<link rel="preload" href="b.mp4" as="video" type="video/mp4">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;900&family=Noto+Sans+JP:wght@300;500;700&display=swap" rel="stylesheet">
 <!--
   ============================================================
@@ -48,6 +48,18 @@
       googleFonts: 'https://fonts.googleapis.com/css2?family=Cinzel:wght@600;900&family=Noto+Sans+JP:wght@300;500;700&display=swap',
     },
 
+    // ===== Gradient mau cho cac dong chu =====
+    // Moi preset la mot CSS background (linear-gradient / radial-gradient / solid color).
+    // Ap dung cho: name (username), pinkGrad (kanji/tagline/badge/footer mark), badgeBorder.
+    // Co the custom hoan toan bang preset: 'custom' + custom: 'linear-gradient(...)'
+    gradient: {
+      preset: 'sunset',     // 'sakuraGray' | 'pinkNeon' | 'gold' | 'ocean' | 'sunset' | 'mono' | 'custom'
+      custom: '',               // Chi dung khi preset = 'custom'. Vi du: 'linear-gradient(90deg, #ff6, #f0f)'
+      name: '',                 // Override rieng cho .name (de trong = dung preset)
+      pinkGrad: '',             // Override rieng cho .pink-grad
+      badgeBorder: '',          // Mau vien badge (co the la gradient hoac solid)
+    },
+
     // ===== Avatar =====
     avatar: {
       url: 'https://cdn.discordapp.com/avatars/1004917748264087665/archived/1520847062839595079/b750fc414bdbeb1fe871604ff82428ce.webp?size=2048',
@@ -71,14 +83,26 @@
         // them nhieu neu muon, vi du: 'trail3.gif'
       ],
       maxOnScreen: 12,                           // So luong toi da dang hien thi
-      size: 28,                                  // Kich thuoc moi hinh (px)
-      followSpeed: 0.35,                         // Do muon di theo chuot (0 = khong di, 1 = dung vi tri chuot)
+      size: 20,                                  // Kich thuoc moi hinh (px)
+      followSpeed: 0.5,                         // Do muon di theo chuot (0 = khong di, 1 = dung vi tri chuot)
     },
 
     // ===== Background =====
     background: {
-      video: 'yournameedit.mp4',                 // File video nen
+      video: 'b.mp4',                            // File video nen
       showVideo: true,                           // BAT/TAT video nen (neu tat se chi hien fallback)
+      // Cach video phu man hinh:
+      //   'cover'   - phu kin man hinh (co the crop 2 canh) - MAC DINH
+      //   'contain' - hien toan bo video, co the co vien den 2 ben
+      //   'actual'  - kich thuoc that cua video (1:1 pixel)
+      fit: 'actual',
+      // Vi tri video khi con khoang trong (chi ap dung voi fit != 'actual'):
+      //   'center' | 'top' | 'bottom' | 'left' | 'right'
+      //   'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+      position: 'center',
+      // Phong to/thu nho them (1 = giu nguyen). Dung khi video bi zoom qua nhieu.
+      // Vi du 1.3 = phong to 30% de video full man hinh hon (bo di vien den).
+      scale: 0.70,
     },
 
     // ===== Lien ket =====
@@ -94,10 +118,26 @@
       type: 'Doing nothing..',
       title: 'Ở dưới là một dòng chữ',
       sub: 'Ở trên là một dòng chữ khác.',
-      image: 'https://cdn.discordapp.com/attachments/1327664793544560664/1526561725493547099/image.png?ex=6a5778e5&is=6a562765&hm=a3d98aad385c14474500f3f3d2e7ca95d8e5e96abae869e96397441b39ab650d',
+      image: 'https://cdn.discordapp.com/attachments/1327664793544560664/1526561725493547069/image.png?ex=6a5778e5&is=6a562765&hm=a3d98aad385c14474500f3f3d2e7ca95d8e5e96abae869e96397441b39ab650d',
+      // Mau / gradient cho tung dong trong activity fallback.
+      // Moi field chap nhan:
+      //   - solid color: '#ffb7c5'
+      //   - gradient:    'linear-gradient(90deg, #ff4d6d, #ffd166)'
+      //   - null/undefined: giu mac dinh CSS
+      // Neu muon gradient mau chu, set color = gradient + useGradient = true.
+      style: {
+        type:  'linear-gradient(90deg, #ff8a00, #ffd700)',
+        title: 'linear-gradient(90deg, #6699FF, #0066FF)',
+        sub:   'linear-gradient(90deg, #6699FF, #0066FF)'
+      },
     },
 
     // ===== Tagline rotate (cac cau xoay vong) =====
+    // Moi phan tu co the la:
+    //   - string don: '404: motivation not found.'   (dung mau chung ben duoi)
+    //   - object:    { text: '...', color: '#f0f' }
+    //   - object:    { text: '...', gradient: 'linear-gradient(...)' }  (khong can useGradient flag)
+    // color/gradient la optional, neu thieu thi dung gia tri o taglineColors.singleColor.
     taglineMessages: [
       '367: I\'m brainless',
       'StackOverflowError: brain not responding.',
@@ -108,6 +148,27 @@
       '500: Internal Brain Error.',
       '404: motivation not found.',
     ],
+    // ===== Tagline colors =====
+    // eachDifferentColor = true  -> moi dong 1 mau (lay theo thu tu trong palette)
+    // eachDifferentColor = false -> tat ca cac dong cung 1 mau / gradient (singleColor)
+    taglineColors: {
+      eachDifferentColor: false,
+      // Mau / gradient rieng cho tung dong (moi dong 1 mau).
+      // Neu khong du, cac dong con lai dung mau cuoi cung (lap lai).
+      // Moi entry chap nhan: '#hex' hoac 'linear-gradient(...)'.
+      palette: [
+        '#ff6b9d',                                              // hong
+        'linear-gradient(90deg, #ff4d6d, #ffd166)',             // do -> vang
+        '#6effc6',                                              // xanh mint
+        'linear-gradient(90deg, #56ccf2, #2c7da0)',             // xanh bien
+        '#b967ff',                                              // tim
+        '#ffe066',                                              // vang
+        'linear-gradient(90deg, #ff8a00, #ffd700)',             // cam
+        '#a0a0a0',                                              // xam
+      ],
+      // Khi eachDifferentColor = false: tat ca dong dung chung mau/gradient nay.
+      singleColor: '#FFCC99',
+    },
   };
 </script>
 <style>
@@ -164,13 +225,12 @@
   }
   .bg-video-wrap video{
     position:absolute;
-    top:50%;left:50%;
-    min-width:100%;
-    min-height:100%;
-    width:auto;height:auto;
-    transform:translate(-50%,-50%);
+    top:var(--bg-video-y,50%); left:var(--bg-video-x,50%);
+    width:var(--bg-video-w,100%); height:var(--bg-video-h,100%);
+    transform:translate(-50%,-50%) scale(var(--bg-video-scale,1));
     filter:grayscale(60%) contrast(1.1) brightness(1.15);
-    object-fit:cover;
+    object-fit:var(--bg-video-fit,cover);
+    object-position:var(--bg-video-pos,center);
     opacity:0;
     pointer-events:none;
     -webkit-user-select:none;
@@ -529,14 +589,14 @@
   /*   TYPING TITLE   */
   .name{
     font-family:'Cinzel',serif; font-weight:900; font-size:var(--fs-username); letter-spacing:1.5px; text-transform:uppercase;
-    /* Gradient: xam toi -> hong nhat giua -> xam toi */
-    background:linear-gradient(90deg, #3a3a3a 0%, #b88a93 35%, #f4cdd4 50%, #b88a93 65%, #3a3a3a 100%);
+    /* Gradient duoc set dong tu CONFIG.gradient qua bien CSS --grad-name */
+    background:var(--grad-name, linear-gradient(90deg, #3a3a3a 0%, #b88a93 35%, #f4cdd4 50%, #b88a93 65%, #3a3a3a 100%));
     -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; min-height:1.3em;
   }
   .cursor{ display:inline-block; color:#f4cdd4; -webkit-text-fill-color:#f4cdd4; margin-left:2px; animation:blink 0.9s steps(1) infinite; }
   @keyframes blink{ 50%{ opacity:0; } }
   /* Gradient hong-nhat giua chuyen dan xam 2 ben, ap dung cho: kanji, tagline, footer mark, badge, icon border */
-  .pink-grad{ background:linear-gradient(90deg, #3a3a3a, #b88a93 35%, #f4cdd4 50%, #b88a93 65%, #3a3a3a); -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; }
+  .pink-grad{ background:var(--grad-pink, linear-gradient(90deg, #3a3a3a, #b88a93 35%, #f4cdd4 50%, #b88a93 65%, #3a3a3a)); -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; }
   .name .kanji{ display:block; font-family:'Noto Sans JP',sans-serif; font-weight:300; font-size:var(--fs-kanji); letter-spacing:6px; margin-top:6px; }
   .tagline{ margin-top:10px; font-size:var(--fs-tagline); font-weight:300; letter-spacing:0.5px; opacity:0.9; text-shadow:0 0 10px rgba(0,0,0,0.6); min-height:1.4em; }
   .tagline-text{ display:inline; }
@@ -563,11 +623,11 @@
   a, button, .link-btn, .audio-btn, .enter-overlay, .volume-slider, .enter-text{
     cursor: url('cursor-pointer.png') 0 0, pointer;
   }
-  .divider{ width:60px; height:1px; background:linear-gradient(90deg, transparent, #b88a93, transparent); margin:22px auto; opacity:0.4; }
+  .divider{ width:60px; height:1px; background:var(--grad-pink, linear-gradient(90deg, transparent, #b88a93, transparent)); margin:22px auto; opacity:0.4; }
   .badges{ display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-bottom:24px; }
-  /* Badge: gradient den-hong-xam nen hồng-nhat, chữ gradient */
-  .badge{ font-size:var(--fs-badge); letter-spacing:1px; text-transform:uppercase; padding:5px 12px; border:1px solid #b88a93; border-radius:20px; background:transparent; font-weight:500; }
-  .badge{ background-image:linear-gradient(90deg, #2a2a2a, #5a3a40, #b88a93); color:transparent; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+  /* Badge: gradient den-hong-xam nen hồng-nhat, chữ gradient (set dong tu CONFIG.gradient) */
+  .badge{ font-size:var(--fs-badge); letter-spacing:1px; text-transform:uppercase; padding:5px 12px; border:1px solid var(--grad-badge-border, #b88a93); border-radius:20px; background:transparent; font-weight:500; }
+  .badge{ background-image:var(--grad-pink, linear-gradient(90deg, #2a2a2a, #5a3a40, #b88a93)); color:transparent; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
   .links{ display:flex; flex-direction:row; justify-content:center; align-items:center; gap:16px; }
   .link-btn{ position:relative; display:flex; align-items:center; justify-content:center; width:48px; height:48px; padding:0; background:transparent; border:1.5px solid #b88a93; border-radius:50%; color:var(--icon-color); text-decoration:none; overflow:visible; transition:transform 0.25s ease, border-color 0.25s ease, background 0.25s ease; }
   .link-btn .sweep-mask{ position:absolute; inset:0; border-radius:50%; overflow:hidden; pointer-events:none; }
@@ -690,7 +750,7 @@
   <div class="bg-video-wrap">
     <canvas id="videoCanvasBg" aria-hidden="true"></canvas>
     <video muted loop playsinline="playsinline" webkit-playsinline="webkit-playsinline" x5-playsinline="true" x5-video-player-type="h5-page" x5-video-player-fullscreen="false" x-webkit-airplay="deny" disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback" preload="auto" fetchpriority="high" id="bgVideo" aria-hidden="true" tabindex="-1">
-      <source src="yournameedit.mp4" type="video/mp4">
+      <source src="b.mp4" type="video/mp4">
     </video>
   </div>
   <div class="bg-fallback" id="bgFallback"></div>
@@ -844,6 +904,113 @@
     if (conf.weight != null) el.style.fontWeight = String(conf.weight);
     if (conf.letterSpacing) el.style.letterSpacing = conf.letterSpacing;
     if (conf.textTransform) el.style.textTransform = conf.textTransform;
+  }
+
+  //   Ap dung CONFIG.background.fit / position / scale vao CSS variables
+  (function applyBgVideoLayout(){
+    const bg = CONFIG.background || {};
+    const root = document.documentElement;
+    const fit = bg.fit || 'cover';
+    const pos = bg.position || 'center';
+    const scale = (typeof bg.scale === 'number' && bg.scale > 0) ? bg.scale : 1;
+
+    // Map fit -> kich thuoc CSS
+    //   cover:   w/h = 100%/100% (mac dinh cu)
+    //   contain: w/h = auto/auto, giu ti le video, co the vien den
+    //   actual:  dung kich thuoc that (se can chinh scale de phu man hinh)
+    let wCss = '100%', hCss = '100%';
+    if (fit === 'contain') { wCss = 'auto'; hCss = 'auto'; }
+    if (fit === 'actual')  { wCss = 'auto'; hCss = 'auto'; }
+
+    root.style.setProperty('--bg-video-fit', fit);
+    root.style.setProperty('--bg-video-pos', pos);
+    root.style.setProperty('--bg-video-scale', String(scale));
+    root.style.setProperty('--bg-video-w', wCss);
+    root.style.setProperty('--bg-video-h', hCss);
+    // contain/actual can transform center (top/left = 50%), cover cung khong sao
+    root.style.setProperty('--bg-video-x', '50%');
+    root.style.setProperty('--bg-video-y', '50%');
+  })();
+
+  //   Ap dung CONFIG.gradient vao CSS variables
+  //   Preset mau de chon nhanh, co the custom bang preset: 'custom' + custom: '...'.
+  const GRADIENT_PRESETS = {
+    sakuraGray: {
+      name: 'linear-gradient(90deg, #3a3a3a 0%, #b88a93 35%, #f4cdd4 50%, #b88a93 65%, #3a3a3a 100%)',
+      pink: 'linear-gradient(90deg, #3a3a3a, #b88a93 35%, #f4cdd4 50%, #b88a93 65%, #3a3a3a)',
+      badgeBorder: '#b88a93'
+    },
+    pinkNeon: {
+      name: 'linear-gradient(90deg, #ff4d8d 0%, #ff8fb1 50%, #ff4d8d 100%)',
+      pink: 'linear-gradient(90deg, #ffe0ee, #ff6faf 50%, #ffe0ee)',
+      badgeBorder: '#ff6faf'
+    },
+    gold: {
+      name: 'linear-gradient(90deg, #5a3a00 0%, #c89a3a 35%, #ffe28a 50%, #c89a3a 65%, #5a3a00 100%)',
+      pink: 'linear-gradient(90deg, #5a3a00, #c89a3a 35%, #ffe28a 50%, #c89a3a 65%, #5a3a00)',
+      badgeBorder: '#c89a3a'
+    },
+    ocean: {
+      name: 'linear-gradient(90deg, #0a2540 0%, #2c7da0 35%, #a9d6e5 50%, #2c7da0 65%, #0a2540 100%)',
+      pink: 'linear-gradient(90deg, #0a2540, #2c7da0 35%, #a9d6e5 50%, #2c7da0 65%, #0a2540)',
+      badgeBorder: '#2c7da0'
+    },
+    sunset: {
+      name: 'linear-gradient(90deg, #2d1b4e 0%, #b33771 35%, #f6a86b 50%, #b33771 65%, #2d1b4e 100%)',
+      pink: 'linear-gradient(90deg, #2d1b4e, #b33771 35%, #f6a86b 50%, #b33771 65%, #2d1b4e)',
+      badgeBorder: '#f6a86b'
+    },
+    mono: {
+      name: 'linear-gradient(90deg, #111 0%, #888 50%, #111 100%)',
+      pink: 'linear-gradient(90deg, #222, #bbb 50%, #222)',
+      badgeBorder: '#888'
+    }
+  };
+  (function applyGradient(){
+    const g = CONFIG.gradient || {};
+    const root = document.documentElement;
+    let preset;
+    if (g.preset === 'custom' && typeof g.custom === 'string' && g.custom.trim()) {
+      preset = { name: g.custom, pink: g.custom, badgeBorder: g.custom };
+    } else {
+      preset = GRADIENT_PRESETS[g.preset] || GRADIENT_PRESETS.sakuraGray;
+    }
+    // Override rieng neu nguoi dung muon custom 1 phan
+    root.style.setProperty('--grad-name', g.name || preset.name);
+    root.style.setProperty('--grad-pink', g.pinkGrad || preset.pink);
+    root.style.setProperty('--grad-badge-border', g.badgeBorder || preset.badgeBorder);
+  })();
+
+  //   Helper: ap mau/gradient cho 1 element text. Tra ve {color, bg} de JS su dung.
+  //   - Neu la gradient thi can set background + background-clip:text cho hien thi gradient mau chu.
+  //   - Neu la solid thi chi can set color.
+  function applyTextColor(el, value){
+    if (!el || !value) return;
+    if (typeof value !== 'string') return;
+    const v = value.trim();
+    if (!v) return;
+    const isGradient = /gradient\(/i.test(v);
+    if (isGradient) {
+      el.style.color = 'transparent';
+      el.style.webkitTextFillColor = 'transparent';
+      el.style.backgroundImage = v;
+      el.style.webkitBackgroundClip = 'text';
+      el.style.backgroundClip = 'text';
+    } else {
+      el.style.backgroundImage = '';
+      el.style.webkitBackgroundClip = '';
+      el.style.backgroundClip = '';
+      el.style.webkitTextFillColor = '';
+      el.style.color = v;
+    }
+  }
+  function clearTextColor(el){
+    if (!el) return;
+    el.style.backgroundImage = '';
+    el.style.webkitBackgroundClip = '';
+    el.style.backgroundClip = '';
+    el.style.webkitTextFillColor = '';
+    el.style.color = '';
   }
 
   // iPhone fix manh: khong hien truc tiep the <video> nua, vi mot so iOS/In-App Browser
@@ -1326,6 +1493,44 @@
   const acProgFill = document.getElementById('acProgFill');
   const acProgTimer = { t: null };
 
+  //   Ap mau/gradient rieng cho type/title/sub cua activity popup (fallback)
+  //   Doc tu CONFIG.fallbackActivity.style.{type,title,sub}
+  //   Su dung cho ca 2 truong hop:
+  //     - Doing nothing.. (fallback, typeLabel = 'Doing nothing..')
+  //     - Custom activity tu Lanyard (khi user muon override mau)
+  function applyActivityFallbackColors(opts){
+    opts = opts || {};
+    const showFallback = !!opts.isFallback;
+    const cfg = CONFIG.fallbackActivity || {};
+    const style = cfg.style || {};
+
+    // type: chi override khi dang la Doing nothing.. (fallback)
+    if (showFallback && style.type) {
+      applyTextColor(acType, style.type);
+    } else if (!showFallback && style.type) {
+      // Neu user muon override mau type cho custom activity
+      applyTextColor(acType, style.type);
+    } else {
+      clearTextColor(acType);
+    }
+
+    if (showFallback && style.title) {
+      applyTextColor(acTitle, style.title);
+    } else if (!showFallback && style.title) {
+      applyTextColor(acTitle, style.title);
+    } else {
+      clearTextColor(acTitle);
+    }
+
+    if (showFallback && style.sub) {
+      applyTextColor(acSub, style.sub);
+    } else if (!showFallback && style.sub) {
+      applyTextColor(acSub, style.sub);
+    } else {
+      clearTextColor(acSub);
+    }
+  }
+
   function setActivityArt(url, fallbackEmoji, spin){
     if (!acArt || !acArtPh) return;
     acArt.classList.toggle('spin-slow', !!spin);
@@ -1446,7 +1651,7 @@
     let art = '';
     let emoji = '🎮';
     // Chi xoay khi "Doing nothing.." - KHONG xoay khi co activity (se giu hinh vuong bo goc)
-    isDoingNothing = false;
+    let isDoingNothing = false;
     let showBars = false;
 
     // 1) Spotify (Lanyard co object rieng)
@@ -1505,6 +1710,9 @@
     acType.textContent = typeLabel;
     acTitle.textContent = title;
     acSub.textContent = sub || ' ';
+
+    // Ap mau rieng cho type/title/sub neu co config (fallback hoac override)
+    applyActivityFallbackColors({ isFallback: isDoingNothing });
 
     // Spotify progress bar (timestamps tu Lanyard, ms)
     const isSpotifyNow = !!(data.listening_to_spotify && data.spotify);
@@ -1654,25 +1862,66 @@
   //   Tagline rotate (nhieu cau vui, xoay vong)
   const taglineEl = document.getElementById('tagline');
   const taglineTextEl = taglineEl ? taglineEl.querySelector('.tagline-text') : null;
-  const taglineMessages = [
-    '367: I\,m brainless',
-    'StackOverflowError: brain not responding.',
-    '418: I\'m a teapot.',
-    '504: Gateway Timeout.',
-    '401: Unauthorized.',
-    '403: Forbidden.',
-    '500: Internal Brain Error.',
-    '404: motivation not found.'
-  ];
+  // Uu tien dung CONFIG.taglineMessages neu co, fallback ve danh sach mac dinh.
+  // Moi phan tu co the la string hoac { text, color, gradient }.
+  const rawTaglineMessages = (Array.isArray(CONFIG.taglineMessages) && CONFIG.taglineMessages.length)
+    ? CONFIG.taglineMessages
+    : [
+        "367: I'm brainless",
+        'StackOverflowError: brain not responding.',
+        "418: I'm a teapot.",
+        '504: Gateway Timeout.',
+        '401: Unauthorized.',
+        '403: Forbidden.',
+        '500: Internal Brain Error.',
+        '404: motivation not found.'
+      ];
+
+  // Chuan hoa thanh [{text, colorSingle}] de de xu ly
+  function normalizeTaglineEntry(entry){
+    if (entry == null) return { text: '', color: '' };
+    if (typeof entry === 'string') return { text: entry, color: '' };
+    return {
+      text: typeof entry.text === 'string' ? entry.text : '',
+      color: (typeof entry.color === 'string' && entry.color) ||
+             (typeof entry.gradient === 'string' && entry.gradient) ||
+             ''
+    };
+  }
+  const taglineMessages = rawTaglineMessages.map(normalizeTaglineEntry);
+
+  // Lay mau/gradient cho 1 entry theo config taglineColors
+  function pickTaglineColor(idx, entryColor){
+    if (entryColor) return entryColor;
+    const tc = CONFIG.taglineColors || {};
+    if (tc.eachDifferentColor) {
+      const palette = Array.isArray(tc.palette) ? tc.palette : [];
+      if (palette.length) {
+        // Lap lai palette neu thieu
+        return palette[idx % palette.length] || '';
+      }
+    }
+    return (typeof tc.singleColor === 'string') ? tc.singleColor : '';
+  }
+
   if (taglineTextEl) {
     let tlIdx = 0;
+    // Ap mau cho dong dau tien ngay khi load
+    clearTextColor(taglineTextEl);
+    const firstColor = pickTaglineColor(tlIdx, taglineMessages[tlIdx].color);
+    if (firstColor) applyTextColor(taglineTextEl, firstColor);
+    taglineTextEl.textContent = taglineMessages[tlIdx].text;
+
     setInterval(() => {
       if (!userEntered) return;
       taglineEl.classList.add('rotating');
       taglineTextEl.style.opacity = '0';
       setTimeout(() => {
         tlIdx = (tlIdx + 1) % taglineMessages.length;
-        taglineTextEl.textContent = taglineMessages[tlIdx];
+        clearTextColor(taglineTextEl);
+        const c = pickTaglineColor(tlIdx, taglineMessages[tlIdx].color);
+        if (c) applyTextColor(taglineTextEl, c);
+        taglineTextEl.textContent = taglineMessages[tlIdx].text;
         taglineTextEl.style.opacity = '1';
       }, 280);
     }, 5200);
@@ -1804,7 +2053,6 @@
   const canvas = document.getElementById('particle-canvas');
   const ctx = canvas.getContext('2d', { alpha:true });
   let w, h, dpr;
-  // particleMode da duoc khai bao o tren (fxToggle block)
   let sakuraSprites = [];
   let ripples = [];
 
