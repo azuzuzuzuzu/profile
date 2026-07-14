@@ -33,10 +33,26 @@
       tagline: 'Đây là 1 dòng chữ.*',             // Dong tagline (co the de trong neu khong muon)
     },
 
+    // ===== Fonts (font-family + size + weight cho tung phan) =====
+    // Font family: 'Cinzel' | 'Noto Sans JP' | 'monospace' | 'serif' | 'sans-serif' | ten font Google Fonts
+    // weight: 300 (Light) | 400 | 500 | 700 | 900 (Black)
+    fonts: {
+      username: { family: "'Cinzel',serif", size: '1.5rem',  weight: 900, letterSpacing: '1.5px' },
+      kanji:    { family: "'Noto Sans JP',sans-serif", size: '0.85rem', weight: 300, letterSpacing: '6px' },
+      tagline:  { family: "'Noto Sans JP',sans-serif", size: '0.9rem',  weight: 300, letterSpacing: '0.5px' },
+      badge:    { family: "'Noto Sans JP',sans-serif", size: '0.68rem', weight: 500, letterSpacing: '1px',   textTransform: 'uppercase' },
+      activity: { family: "'Noto Sans JP',sans-serif", size: '0.82rem', weight: 500, letterSpacing: 'normal', textTransform: 'normal' },
+      footer:   { family: "'Noto Sans JP',sans-serif", size: '0.7rem',  weight: 300, letterSpacing: '1px' },
+      body:     { family: "'Noto Sans JP',sans-serif", size: '16px',    weight: 300 },
+      enterText:{ family: "'Noto Sans JP',sans-serif", size: '0.85rem', weight: 500, letterSpacing: '3px',   textTransform: 'uppercase' },
+      googleFonts: 'https://fonts.googleapis.com/css2?family=Cinzel:wght@600;900&family=Noto+Sans+JP:wght@300;500;700&display=swap',
+    },
+
     // ===== Avatar =====
     avatar: {
       url: 'https://cdn.discordapp.com/avatars/1004917748264087665/archived/1520847062839595079/b750fc414bdbeb1fe871604ff82428ce.webp?size=2048',
       decor: 'https://cdn.discordapp.com/media/v1/collectibles-shop/1228251144065777765/animated', // Decor tren avatar (de trong neu khong muon)
+      size: { desktop: 128, tablet: 112, small: 104 }, // avatar px theo breakpoint
     },
 
     // ===== Hieu ung sakura =====
@@ -110,13 +126,22 @@
     --bg-overlay-opacity:0;
     --grain-opacity:0;
     --particle-opacity:86;
+    /* Font sizes - duoc set dong tu CONFIG.fonts */
+    --font-body:'Noto Sans JP',sans-serif;
+    --fs-username:1.5rem;
+    --fs-kanji:0.85rem;
+    --fs-tagline:0.9rem;
+    --fs-badge:0.68rem;
+    --fs-activity:0.82rem;
+    --fs-footer:0.7rem;
+    --fs-entertext:0.85rem;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html,body{
     height:100%;
     background:var(--background-color);
     color:var(--text-color);
-    font-family:'Noto Sans JP',sans-serif;
+    font-family:var(--font-body);
     overflow-x:hidden;
     cursor: url('cursor.png') 0 0, auto;
   }
@@ -456,7 +481,7 @@
     background:linear-gradient(90deg, #6a4a52, #c0a0a8 50%, #6a4a52); -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; margin-bottom:3px; opacity:0.95;
   }
   .activity-card .ac-title{
-    font-size:0.82rem; color:var(--text-color); font-weight:500;
+    font-size:var(--fs-activity); color:var(--text-color); font-weight:500;
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
   .activity-card .ac-sub{
@@ -503,7 +528,7 @@
 
   /*   TYPING TITLE   */
   .name{
-    font-family:'Cinzel',serif; font-weight:900; font-size:1.5rem; letter-spacing:1.5px; text-transform:uppercase;
+    font-family:'Cinzel',serif; font-weight:900; font-size:var(--fs-username); letter-spacing:1.5px; text-transform:uppercase;
     /* Gradient: xam toi -> hong nhat giua -> xam toi */
     background:linear-gradient(90deg, #3a3a3a 0%, #b88a93 35%, #f4cdd4 50%, #b88a93 65%, #3a3a3a 100%);
     -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; min-height:1.3em;
@@ -512,8 +537,8 @@
   @keyframes blink{ 50%{ opacity:0; } }
   /* Gradient hong-nhat giua chuyen dan xam 2 ben, ap dung cho: kanji, tagline, footer mark, badge, icon border */
   .pink-grad{ background:linear-gradient(90deg, #3a3a3a, #b88a93 35%, #f4cdd4 50%, #b88a93 65%, #3a3a3a); -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; }
-  .name .kanji{ display:block; font-family:'Noto Sans JP',sans-serif; font-weight:300; font-size:0.85rem; letter-spacing:6px; margin-top:6px; }
-  .tagline{ margin-top:10px; font-size:0.9rem; font-weight:300; letter-spacing:0.5px; opacity:0.9; text-shadow:0 0 10px rgba(0,0,0,0.6); min-height:1.4em; }
+  .name .kanji{ display:block; font-family:'Noto Sans JP',sans-serif; font-weight:300; font-size:var(--fs-kanji); letter-spacing:6px; margin-top:6px; }
+  .tagline{ margin-top:10px; font-size:var(--fs-tagline); font-weight:300; letter-spacing:0.5px; opacity:0.9; text-shadow:0 0 10px rgba(0,0,0,0.6); min-height:1.4em; }
   .tagline-text{ display:inline; }
   .tagline-cursor{ display:none; }
   .tagline.rotating .tagline-text{ transition:opacity 0.25s ease; }
@@ -524,7 +549,7 @@
   @keyframes slowSpin{ to{ transform:rotate(360deg); } }
 
   /*   FOOTER - fixed bottom-left  */
-  .footer-fixed{ position:fixed; left:calc(16px + env(safe-area-inset-left,0px)); bottom:calc(14px + env(safe-area-inset-bottom,0px)); z-index:40; font-size:0.7rem; color:#888; letter-spacing:1px; pointer-events:none; text-shadow:0 0 8px rgba(0,0,0,0.6); }
+  .footer-fixed{ position:fixed; left:calc(16px + env(safe-area-inset-left,0px)); bottom:calc(14px + env(safe-area-inset-bottom,0px)); z-index:40; font-size:var(--fs-footer); color:#888; letter-spacing:1px; pointer-events:none; text-shadow:0 0 8px rgba(0,0,0,0.6); }
   .footer-fixed span{ color:#f4cdd4; margin:0 4px; }
 
   /*   CURSOR TRAIL (sakura)  */
@@ -541,7 +566,7 @@
   .divider{ width:60px; height:1px; background:linear-gradient(90deg, transparent, #b88a93, transparent); margin:22px auto; opacity:0.4; }
   .badges{ display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-bottom:24px; }
   /* Badge: gradient den-hong-xam nen hồng-nhat, chữ gradient */
-  .badge{ font-size:0.68rem; letter-spacing:1px; text-transform:uppercase; padding:5px 12px; border:1px solid #b88a93; border-radius:20px; background:transparent; font-weight:500; }
+  .badge{ font-size:var(--fs-badge); letter-spacing:1px; text-transform:uppercase; padding:5px 12px; border:1px solid #b88a93; border-radius:20px; background:transparent; font-weight:500; }
   .badge{ background-image:linear-gradient(90deg, #2a2a2a, #5a3a40, #b88a93); color:transparent; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
   .links{ display:flex; flex-direction:row; justify-content:center; align-items:center; gap:16px; }
   .link-btn{ position:relative; display:flex; align-items:center; justify-content:center; width:48px; height:48px; padding:0; background:transparent; border:1.5px solid #b88a93; border-radius:50%; color:var(--icon-color); text-decoration:none; overflow:visible; transition:transform 0.25s ease, border-color 0.25s ease, background 0.25s ease; }
@@ -652,7 +677,7 @@
   .enter-overlay{ position:fixed; inset:0; z-index:100; background:rgba(0,0,0,0.55); backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px); display:flex; align-items:center; justify-content:center; cursor: url('cursor-pointer.png') 0 0, pointer; transition:opacity 0.6s ease, visibility 0.6s ease; }
   .enter-overlay.leaving{ opacity:0; visibility:visible; pointer-events:auto; }
   .enter-overlay.hidden{ opacity:0; visibility:hidden; pointer-events:none; }
-  .enter-text{ font-family:'Noto Sans JP',sans-serif; font-weight:500; font-size:0.85rem; letter-spacing:3px; text-transform:uppercase; color:var(--text-color); animation:enterFade 1.8s ease-in-out infinite; }
+  .enter-text{ font-family:'Noto Sans JP',sans-serif; font-weight:500; font-size:var(--fs-entertext); letter-spacing:3px; text-transform:uppercase; color:var(--text-color); animation:enterFade 1.8s ease-in-out infinite; }
   @keyframes enterFade{ 0%,100%{ opacity:0.5; } 50%{ opacity:1; } }
 </style>
 </head>
@@ -708,9 +733,9 @@
         <div class="info-col">
           <h1 class="name" id="nameTitle">
             <span id="typedTitle"></span><span class="cursor">|</span>
-            <span class="kanji">こ ん に ち は</span>
+            <span class="kanji" id="kanjiEl">こ ん に ち は</span>
           </h1>
-          <p class="tagline" id="tagline"><span class="tagline-text">Đây là 1 dòng chữ.*</span><span class="tagline-cursor">|</span></p>
+          <p class="tagline" id="tagline"><span class="tagline-text" id="taglineText">Đây là 1 dòng chữ.*</span><span class="tagline-cursor">|</span></p>
 
           <div class="activity-card" id="activityCard">
             <div class="ac-art-wrap" id="acArtWrap">
@@ -727,7 +752,7 @@
           <div class="ac-progress" id="acProgress"><div class="ac-prog-fill" id="acProgFill"></div></div>
 
           <div class="divider"></div>
-          <div class="badges"><span class="badge">Learning code</span><span class="badge">Gamer</span></div>
+          <div class="badges" id="badgesEl"><span class="badge">Learning code</span><span class="badge">Gamer</span></div>
           <div class="links">
             <a class="link-btn" href="javascript:void(0)" data-copy="https://discord.com/users/1004917748264087665" data-label="Discord">
               <span class="sweep-mask"><span class="sweep"></span></span>
@@ -797,6 +822,29 @@
   const enterOverlay = document.getElementById('enterOverlay');
   const isIOSLike = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   const AudioCtx = window.AudioContext || window.webkitAudioContext;
+
+  //   Ap dung CONFIG.fonts vao CSS variables va DOM (tu dong set style)
+  (function applyFonts(){
+    const f = CONFIG.fonts || {};
+    const root = document.documentElement;
+    if (f.body && f.body.family) root.style.setProperty('--font-body', f.body.family);
+    // Set CSS variable cho cac kich co
+    if (f.username) root.style.setProperty('--fs-username', f.username.size || '1.5rem');
+    if (f.kanji)    root.style.setProperty('--fs-kanji',    f.kanji.size    || '0.85rem');
+    if (f.tagline)  root.style.setProperty('--fs-tagline',  f.tagline.size  || '0.9rem');
+    if (f.badge)    root.style.setProperty('--fs-badge',    f.badge.size    || '0.68rem');
+    if (f.activity) root.style.setProperty('--fs-activity', f.activity.size || '0.82rem');
+    if (f.footer)   root.style.setProperty('--fs-footer',   f.footer.size   || '0.7rem');
+    if (f.enterText)root.style.setProperty('--fs-entertext',f.enterText.size|| '0.85rem');
+  })();
+  function applyTextStyle(el, conf){
+    if (!el || !conf) return;
+    if (conf.family) el.style.fontFamily = conf.family;
+    if (conf.size)   el.style.fontSize = conf.size;
+    if (conf.weight != null) el.style.fontWeight = String(conf.weight);
+    if (conf.letterSpacing) el.style.letterSpacing = conf.letterSpacing;
+    if (conf.textTransform) el.style.textTransform = conf.textTransform;
+  }
 
   // iPhone fix manh: khong hien truc tiep the <video> nua, vi mot so iOS/In-App Browser
   // van ep mo native fullscreen player. Thay vao do, ve tung frame video len canvas nen.

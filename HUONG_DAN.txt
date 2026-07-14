@@ -1,32 +1,32 @@
 ================================================================
-   HUONG DAN SU DUNG index_final_sakura_curved_float.html
+   HƯỚNG DẪN SỬ DỤNG index_final_sakura_curved_float.html
 ================================================================
 
-1. CACH MO FILE
+1. CÁCH MỞ FILE
 ---------------
-- Click dup chuot vao file "index_final_sakura_curved_float.html"
-  de mo bang trinh duyet (Chrome / Edge / Firefox).
-- Lan dau click "Click to enter..." de vao trang.
-- Hoac chuot phai > Open with > Chrome/Edge/Firefox.
+- Click đúp chuột vào file "index_final_sakura_curved_float.html"
+  để mở bằng trình duyệt (Chrome / Edge / Firefox).
+- Lần đầu click "Click to enter..." để vào trang.
+- Hoặc chuột phải > Open with > Chrome/Edge/Firefox.
 
-2. FILE CAN THIET (dat cung thu muc voi file HTML)
+2. FILE CẦN THIẾT (đặt cùng thư mục với file HTML)
 ---------------------------------------------------
-yournameedit.mp4      -> Video nen (neu khong co se hien nen den)
-b.mp4                 -> (cu, co the bo qua)
-cursor.png            -> Cursor mac dinh
-cursor-pointer.png    -> Cursor khi hover vao nut/link
-trail1.png            -> Anh trail so 1 (theo chuot)
-trail2.png            -> Anh trail so 2 (co the them nhieu)
-b.jpg, ...             -> (optional) cac asset khac
+yournameedit.mp4      -> Video nền (nếu không có sẽ hiện nền đen)
+b.mp4                 -> (cũ, có thể bỏ qua)
+cursor.png            -> Cursor mặc định
+cursor-pointer.png    -> Cursor khi hover vào nút/link
+trail1.png            -> Ảnh trail số 1 (theo chuột)
+trail2.png            -> Ảnh trail số 2 (có thể thêm nhiều)
 
-3. FILE CONFIG (QUAN TRONG - sua o day)
+3. FILE CONFIG (QUAN TRỌNG - sửa ở đây)
 ---------------------------------------
-Mo file bang Notepad / VS Code, sua block CONFIG o DONG 17-70:
+Mở file bằng Notepad / VS Code, sửa block CONFIG ở DÒNG 17-90:
 
     const CONFIG = {
       discord:    { userId: '...' },                // ID Discord
-      profile:    { username, kanji, tagline },   // Ten + tagline
-      avatar:     { url, decor },                  // Anh avatar
+      profile:    { username, kanji, tagline },   // Tên + tagline
+      avatar:     { url, decor, size: { desktop, tablet, small } },
+      fonts:      { username, kanji, tagline, badge, activity, footer, body, enterText, googleFonts },
       sakura:     { enabled: false, count, colors },
       trail:      { enabled, images, maxOnScreen, size, followSpeed },
       background: { video, showVideo },
@@ -35,52 +35,82 @@ Mo file bang Notepad / VS Code, sua block CONFIG o DONG 17-70:
       taglineMessages: [ ... ]
     };
 
-4. CAC VIEC THUONG LAM
+4. CÁC VIỆC THƯỜNG LÀM
 ----------------------
-- DOI TEN: sua CONFIG.profile.username
-- DOI KANJI: sua CONFIG.profile.kanji
-- DOI AVATAR: sua CONFIG.avatar.url (anh .png/.jpg/.webp)
-- DOI LINK: sua CONFIG.links (them bot sua tuy y)
-- BAT/TAT SAKURA: CONFIG.sakura.enabled = true/false
-- BAT/TAT TRAIL: CONFIG.trail.enabled = true/false
-- THEM ANH TRAIL: them duong dan file vao CONFIG.trail.images[]
-- DOI VIDEO NEN: sua CONFIG.background.video
-- DOI TAGLINE XOAY VONG: sua CONFIG.taglineMessages[]
-- DOI FALLBACK KHI OFFLINE: sua CONFIG.fallbackActivity
+- ĐỔI TÊN: sửa CONFIG.profile.username
+- ĐỔI KANJI: sửa CONFIG.profile.kanji
+- ĐỔI AVATAR: sửa CONFIG.avatar.url (ảnh .png/.jpg/.webp)
+- ĐỔI LINK: sửa CONFIG.links (thêm bớt sửa tùy ý)
+- BẬT/TẮT SAKURA: CONFIG.sakura.enabled = true/false
+- BẬT/TẮT TRAIL: CONFIG.trail.enabled = true/false
+- THÊM ẢNH TRAIL: thêm đường dẫn file vào CONFIG.trail.images[]
+- ĐỔI VIDEO NỀN: sửa CONFIG.background.video
+- ĐỔI TAGLINE XOAY VÒNG: sửa CONFIG.taglineMessages[]
+- ĐỔI FALLBACK KHI OFFLINE: sửa CONFIG.fallbackActivity
+- ĐỔI KÍCH CỠ AVATAR: sửa CONFIG.avatar.size (desktop/tablet/small)
 
-5. DISCORD LIVE STATUS (OPTIONAL)
+5. ĐỔI FONT / KÍCH CỠ CHỮ (CONFIG.fonts)
+--------------------------------------
+Mỗi phần có thể chỉnh: family, size, weight, letterSpacing, textTransform
+
+Ví dụ muốn đổi tên sang font monospace:
+    fonts: {
+      username: { family: "'JetBrains Mono',monospace", size: '1.8rem', weight: 700, letterSpacing: '2px' },
+      googleFonts: 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&display=swap'
+    }
+
+Các font có sẵn:
+    username: 'Cinzel' (mặc định - chữ hoa, đẹp)
+    kanji:    'Noto Sans JP'
+    body:     'Noto Sans JP'
+    -> có thể thay bằng bất kỳ Google Font nào (xem fonts.google.com)
+
+Các biến CSS tương ứng (--fs-*) sẽ tự động cập nhật từ CONFIG.
+
+6. DISCORD LIVE STATUS (OPTIONAL)
 ---------------------------------
-- Can join server Lanyard: https://discord.gg/lanyard
-- Sua CONFIG.discord.userId thanh ID Discord cua ban
-- Khi online, status hien thi real-time
-- Spotify dang nghe se hien progress bar
+- Cần join server Lanyard: https://discord.gg/lanyard
+- Sửa CONFIG.discord.userId thành ID Discord của bạn
+- Khi online, status hiển thị real-time
+- Spotify đang nghe sẽ hiện progress bar
 
-6. CURSOR CUSTOM (OPTIONAL)
+7. CURSOR CUSTOM (OPTIONAL)
 ---------------------------
-- File cursor.png (mac dinh, 32x32 nen)
+- File cursor.png (mặc định, 32x32 nên)
 - File cursor-pointer.png (khi hover link)
-- Neu file khong load duoc trinh duyet se dung cursor he thong
+- Nếu file không load được trình duyệt sẽ dùng cursor hệ thống
 
-7. KHAC PHUC SU CO
+8. KHẮC PHỤC SỰ CỐ
 ------------------
-[!] Click "Click to enter..." khong duoc?
-    -> Mo Console (F12), kiem tra loi JS. Neu thay "CONFIG is not defined"
-       ban can move CONFIG block len TRUOC tag <script> chay sau.
+[!] Click "Click to enter..." không được?
+    -> Mở Console (F12), kiểm tra lỗi JS. Nếu thấy "CONFIG is not defined"
+       bạn cần move CONFIG block lên TRƯỚC tag <script> chạy sau.
 
-[!] Status Discord luon offline?
-    -> Ban chua join server Lanyard. Vao https://discord.gg/lanyard roi /join.
+[!] Status Discord luôn offline?
+    -> Bạn chưa join server Lanyard. Vào https://discord.gg/lanyard rồi /join.
 
-[!] Cursor khong hien thi?
-    -> Thu dung file cursor.png < 10KB, kich thuoc chuan 32x32 px.
+[!] Cursor không hiển thị?
+    -> Thử dùng file cursor.png < 10KB, kích thước chuẩn 32x32 px.
 
-[!] Trail khong xuat hien?
-    -> Kiem tra file trail1.png, trail2.png co trong thu muc khong.
-    -> Console se canh bao "[trail] khong load duoc" neu sai duong dan.
+[!] Trail không xuất hiện?
+    -> Kiểm tra file trail1.png, trail2.png có trong thư mục không.
+    -> Console sẽ cảnh báo "[trail] khong load duoc" nếu sai đường dẫn.
 
-[!] Sakura roi qua nhieu / khong muon?
+[!] Sakura rơi quá nhiều / không muốn?
     -> CONFIG.sakura.enabled = false
-    -> CONFIG.sakura.count.desktop de giam so canh hoa
+    -> CONFIG.sakura.count.desktop để giảm số cánh hoa
+
+[!] WebSocket Lanyard liên tục reconnect?
+    -> Bình thường. WebSocket tự reconnect sau 5s nếu mất kết nối.
+
+9. CẤU TRÚC FILE
+----------------
+- Phần <head>: CSS + CONFIG block
+- Phần <body>: HTML + canvas
+- Phần <script>: Toàn bộ logic (không cần sửa)
+
+Để thêm tính năng mới, sửa trong CONFIG và thêm CSS/HTML tương ứng.
 
 ================================================================
-EOF
+EOF - Chúc bạn dùng vui vẻ!
 ================================================================
