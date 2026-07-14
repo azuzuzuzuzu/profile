@@ -1,0 +1,2156 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>超ニート // HiyVipPro_123</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preload" href="yournameedit.mp4" as="video" type="video/mp4">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;900&family=Noto+Sans+JP:wght@300;500;700&display=swap" rel="stylesheet">
+<!--
+  ============================================================
+   PROFILE CONFIG — chinh sua tai day, KHONG can vao phan code
+  ============================================================
+  Vi cac bien trong CONFIG nay se tu dong ap dung cho:
+    - Discord user (status, activity)
+    - Avatar, ten hien thi, tagline
+    - Hieu ung sakura, custom trail
+    - Background video
+    - Custom cursor
+-->
+<script>
+  const CONFIG = {
+    // ===== Thong tin Discord =====
+    discord: {
+      userId: '1004917748264087665',              // ID Discord cua ban
+      // Ban phai join server Lanyard de API hoat dong: https://discord.gg/lanyard
+    },
+
+    // ===== Hien thi =====
+    profile: {
+      username: 'HiyVipPro_123',                  // Ten hien thi
+      kanji: 'こ ん に ち は',                   // Chu kanji nho duoi ten
+      tagline: 'Đây là 1 dòng chữ.*',             // Dong tagline (co the de trong neu khong muon)
+    },
+
+    // ===== Avatar =====
+    avatar: {
+      url: 'https://cdn.discordapp.com/avatars/1004917748264087665/archived/1520847062839595079/b750fc414bdbeb1fe871604ff82428ce.webp?size=2048',
+      decor: 'https://cdn.discordapp.com/media/v1/collectibles-shop/1228251144065777765/animated', // Decor tren avatar (de trong neu khong muon)
+    },
+
+    // ===== Hieu ung sakura =====
+    sakura: {
+      enabled: false,                            // BAT/TAT hieu ung canh hoa roi. Set = false de tat tam thoi.
+      count: { small: 12, tablet: 16, desktop: 22 },
+      colors: ['#ffb7c5'],                       // Mau sac canh hoa (CSS color)
+    },
+
+    // ===== Custom cursor trail (cac anh PNG/JPG xoay vong) =====
+    trail: {
+      enabled: true,                             // BAT/TAT trail
+      images: [                                   // Danh sach duong dan anh (theo thu tu)
+        'trail1.png',
+        'trail2.png',
+        // them nhieu neu muon, vi du: 'trail3.gif'
+      ],
+      maxOnScreen: 12,                           // So luong toi da dang hien thi
+      size: 28,                                  // Kich thuoc moi hinh (px)
+      followSpeed: 0.35,                         // Do muon di theo chuot (0 = khong di, 1 = dung vi tri chuot)
+    },
+
+    // ===== Background =====
+    background: {
+      video: 'yournameedit.mp4',                 // File video nen
+      showVideo: true,                           // BAT/TAT video nen (neu tat se chi hien fallback)
+    },
+
+    // ===== Lien ket =====
+    links: [
+      { label: 'Discord', url: 'https://discord.com/users/1004917748264087665' },
+      { label: 'YouTube', url: 'https://www.youtube.com/watch?v=QDia3e12czc' },
+      // them nhieu neu muon: { label: 'GitHub', url: 'https://github.com/xxx' }
+    ],
+
+    // ===== Activity fallback (khi khong co Discord activity) =====
+    fallbackActivity: {
+      enabled: true,
+      type: 'Doing nothing..',
+      title: 'Ở dưới là một dòng chữ',
+      sub: 'Ở trên là một dòng chữ khác.',
+      image: 'https://cdn.discordapp.com/attachments/1327664793544560664/1526561725493547099/image.png?ex=6a5778e5&is=6a562765&hm=a3d98aad385c14474500f3f3d2e7ca95d8e5e96abae869e96397441b39ab650d',
+    },
+
+    // ===== Tagline rotate (cac cau xoay vong) =====
+    taglineMessages: [
+      '367: I\'m brainless',
+      'StackOverflowError: brain not responding.',
+      '418: I\'m a teapot.',
+      '504: Gateway Timeout.',
+      '401: Unauthorized.',
+      '403: Forbidden.',
+      '500: Internal Brain Error.',
+      '404: motivation not found.',
+    ],
+  };
+</script>
+<style>
+  :root{
+    --white:#575757;
+    --black:#000000;
+    --gray:#575757;
+    --sakura:#ffb7c5;
+    --accent-color:#ffe5eb;
+    --text-color:#575757;
+    --icon-color:#294e6b;
+    --background-color:#000000;
+    --background-effect-color:#ffb7c5;
+    --profile-blur:0px;
+    --profile-opacity:2;
+    --bg-overlay-opacity:0;
+    --grain-opacity:0;
+    --particle-opacity:86;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{
+    height:100%;
+    background:var(--background-color);
+    color:var(--text-color);
+    font-family:'Noto Sans JP',sans-serif;
+    overflow-x:hidden;
+    cursor: url('cursor.png') 0 0, auto;
+  }
+  a, button, .link-btn, .audio-btn, .enter-overlay, .volume-slider{
+    cursor: url('cursor-pointer.png') 0 0, pointer;
+  }
+  body{
+    -webkit-touch-callout:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  /*   VIDEO BACKGROUND   */
+  .bg-video-wrap{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    overflow:hidden;
+    background:#000;
+    pointer-events:none;
+  }
+  .bg-video-wrap video{
+    position:absolute;
+    top:50%;left:50%;
+    min-width:100%;
+    min-height:100%;
+    width:auto;height:auto;
+    transform:translate(-50%,-50%);
+    filter:grayscale(60%) contrast(1.1) brightness(1.15);
+    object-fit:cover;
+    opacity:0;
+    pointer-events:none;
+    -webkit-user-select:none;
+    user-select:none;
+    transition:opacity 1.2s ease;
+  }
+  .bg-video-wrap video.is-ready{ opacity:1; }
+
+  #videoCanvasBg{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    width:100%;
+    height:100%;
+    display:none;
+    pointer-events:none;
+    opacity:0;
+    background:#000;
+    filter:grayscale(60%) contrast(1.1) brightness(1.15);
+    transition:opacity 0.45s ease;
+  }
+  #videoCanvasBg.is-ready{ opacity:1; }
+  body.ios-canvas-bg #videoCanvasBg{ display:block; }
+  body.ios-canvas-bg .bg-video-wrap video{
+    opacity:0 !important;
+    width:1px !important;
+    height:1px !important;
+    min-width:1px !important;
+    min-height:1px !important;
+    max-width:1px !important;
+    max-height:1px !important;
+    left:-9999px !important;
+    top:-9999px !important;
+    transform:none !important;
+    object-fit:contain !important;
+  }
+  .bg-fallback{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    background:
+      radial-gradient(circle at 30% 20%, color-mix(in srgb, var(--background-effect-color) 16%, transparent), transparent 40%),
+      linear-gradient(180deg, var(--background-color) 0%, #111111 60%, var(--background-color) 100%);
+    display:none;
+  }
+  .fx-blur-layer{
+    position:fixed;
+    inset:0;
+    z-index:1;
+    backdrop-filter:blur(0px);
+    -webkit-backdrop-filter:blur(0px);
+    transition:backdrop-filter 0.4s ease, -webkit-backdrop-filter 0.4s ease;
+    pointer-events:none;
+  }
+  .fx-blur-layer.active{
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+  }
+  .bg-overlay{
+    position:fixed;
+    inset:0;
+    z-index:2;
+    opacity:calc(var(--bg-overlay-opacity) / 100);
+    background:linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.5) 100%);
+  }
+  .bg-grain{
+    position:fixed;
+    inset:0;
+    z-index:3;
+    pointer-events:none;
+    opacity:calc(var(--grain-opacity) / 100);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /*   BACKGROUND EFFECT OVERLAYS   */
+  .fx-overlay{
+    position:fixed;
+    inset:0;
+    z-index:4;
+    pointer-events:none;
+    opacity:0;
+    overflow:hidden;
+    transition:opacity 0.5s ease;
+  }
+  .fx-overlay.active{ opacity:1; }
+  .fx-plasma-fill{
+    position:absolute;
+    top:-50%; left:-50%;
+    width:200%; height:200%;
+    background:
+      radial-gradient(circle at 25% 30%, color-mix(in srgb, var(--background-effect-color) 55%, transparent), transparent 40%),
+      radial-gradient(circle at 75% 25%, rgba(0,200,255,0.3), transparent 40%),
+      radial-gradient(circle at 50% 75%, rgba(180,0,255,0.3), transparent 40%),
+      radial-gradient(circle at 20% 70%, rgba(255,200,0,0.22), transparent 40%);
+    mix-blend-mode:screen;
+    will-change:transform;
+    animation:plasmaMove 16s linear infinite;
+  }
+  @keyframes plasmaMove{
+    0%{ transform:translate3d(0,0,0) rotate(0deg) scale(1); }
+    50%{ transform:translate3d(3%,-2%,0) rotate(8deg) scale(1.05); }
+    100%{ transform:translate3d(0,0,0) rotate(0deg) scale(1); }
+  }
+  .fx-aurora-fill{
+    position:absolute;
+    top:-30%; left:-60%;
+    width:220%; height:160%;
+    background:linear-gradient(115deg,
+      transparent 15%,
+      color-mix(in srgb, var(--background-effect-color) 35%, transparent) 32%,
+      rgba(90,180,255,0.28) 45%,
+      rgba(190,110,255,0.22) 58%,
+      transparent 78%);
+    mix-blend-mode:screen;
+    will-change:transform;
+    animation:auroraMove 14s ease-in-out infinite;
+  }
+  @keyframes auroraMove{
+    0%{ transform:translate3d(0,0,0); }
+    50%{ transform:translate3d(18%,4%,0); }
+    100%{ transform:translate3d(0,0,0); }
+  }
+  .fx-dither{
+    background-image:repeating-conic-gradient(rgba(255,255,255,0.5) 0% 25%, transparent 0% 50%);
+    background-size:3px 3px;
+    mix-blend-mode:overlay;
+    opacity:0;
+  }
+  .fx-dither.active{ opacity:0.5; }
+  .fx-night{
+    background:linear-gradient(180deg, color-mix(in srgb, var(--background-effect-color) 18%, rgba(5,10,40,0.55)) 0%, rgba(5,5,25,0.75) 100%);
+    mix-blend-mode:multiply;
+  }
+  .fx-oldtv-scan{
+    background:repeating-linear-gradient(0deg, rgba(0,0,0,0.35) 0px, rgba(0,0,0,0.35) 1px, transparent 1px, transparent 3px);
+  }
+  .fx-oldtv-scan.active{ animation:oldtvFlicker 0.15s steps(2) infinite; }
+  .fx-oldtv-vignette{ background:radial-gradient(circle at 50% 50%, transparent 55%, rgba(0,0,0,0.65) 100%); }
+  @keyframes oldtvFlicker{ 0%{ opacity:0.85; } 50%{ opacity:1; } 100%{ opacity:0.9; } }
+
+  #particle-canvas{ position:fixed; inset:0; z-index:5; pointer-events:none; opacity:calc(var(--particle-opacity) / 100); }
+
+  /* AUDIO CONTROL  */
+  .audio-control{ position:fixed; top:calc(18px + env(safe-area-inset-top, 0px)); left:calc(18px + env(safe-area-inset-left, 0px)); z-index:50; display:flex; align-items:center; }
+
+  .audio-btn{
+    width:46px; height:46px; border:1px solid color-mix(in srgb, var(--sakura) 45%, transparent);
+    background:rgba(10,10,10,0.55); color:var(--sakura); cursor:pointer;
+    display:flex; align-items:center; justify-content:center; border-radius:50%;
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    transition:background 0.2s ease, color 0.2s ease, transform 0.4s ease, box-shadow 0.25s ease;
+  }
+  .audio-btn:hover{ background:color-mix(in srgb, var(--sakura) 18%, transparent); color:var(--sakura); box-shadow:0 0 18px rgba(255,183,197,0.22); }
+  .audio-btn svg{ width:19px; height:19px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .audio-btn .icon-off{ display:none; }
+  .audio-btn.is-muted .icon-on{ display:none; }
+  .audio-btn.is-muted .icon-off{ display:block; }
+  .volume-slider{
+    position:absolute; left:56px; width:0; opacity:0; height:4px; accent-color:var(--accent-color);
+    cursor:pointer; pointer-events:none; background:rgba(10,10,10,0.55); border-radius:10px;
+    padding:4px 8px; transition:width 0.3s ease, opacity 0.3s ease;
+  }
+  .audio-control:hover .volume-slider,.audio-control:focus-within .volume-slider{ width:80px; opacity:1; pointer-events:auto; }
+
+  /*   LAYOUT   */
+  .container{ position:relative; z-index:6; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:calc(60px + env(safe-area-inset-top, 0px)) 20px calc(60px + env(safe-area-inset-bottom, 0px)); }
+  @supports (min-height:100svh){ .container{ min-height:100svh; } }
+  .card{
+    width:100%; max-width:420px;
+    background:rgba(10,10,10,calc(var(--profile-opacity) / 100));
+    border:1px solid rgba(255,255,255,0.12); border-radius:18px;
+    backdrop-filter:blur(var(--profile-blur)); -webkit-backdrop-filter:blur(var(--profile-blur));
+    padding:38px 30px 32px; text-align:center;
+    box-shadow:0 0 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03) inset;
+    animation:fadeUp 0.9s ease both;
+  }
+  @keyframes fadeUp{ from{opacity:0; transform:translateY(24px);} to{opacity:1; transform:translateY(0);} }
+
+  /* Desktop: avatar trai + info phai */
+  @media (min-width:901px){
+    .card{
+      max-width:640px;
+      padding:34px 36px;
+      text-align:left;
+    }
+    .card-inner{
+      display:grid;
+      grid-template-columns:140px 1fr;
+      gap:28px 30px;
+      align-items:center;
+    }
+    .avatar-wrap{
+      margin:0;
+      --avatar-size:128px;
+      justify-self:center;
+    }
+    .info-col{ min-width:0; }
+    .info-col .name,
+    .info-col .name .kanji,
+    .info-col .tagline{ text-align:left; }
+    .info-col .divider{ margin:18px 0; }
+    .info-col .badges{ justify-content:center; }
+    .info-col .links{ justify-content:center; }
+    .info-col .activity-card{ margin-top:14px; }
+  }
+  @media (max-width:900px){
+    .card-inner{ display:block; }
+  }
+
+  /*   AVATAR   */
+  .avatar-wrap{ --avatar-size:112px; position:relative; width:var(--avatar-size); height:var(--avatar-size); margin:0 auto 18px; }
+  .avatar-ring{ position:absolute; inset:-6px; border-radius:50%; border:1px solid var(--accent-color); opacity:0.5; animation:spin 12s linear infinite; z-index:1; }
+  .avatar-ring::before,.avatar-ring::after{ content:''; position:absolute; width:6px;height:6px; background:var(--accent-color); border-radius:50%; top:-3px;left:50%; box-shadow:0 calc(var(--avatar-size) + 6px) 0 var(--accent-color); }
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .avatar{ position:relative; z-index:2; width:100%; height:100%; border-radius:50%; background:linear-gradient(145deg,#1a1a1a,#000); border:2px solid var(--text-color); display:flex; align-items:center; justify-content:center; font-family:'Cinzel',serif; font-size:2.2rem; font-weight:900; color:var(--text-color); overflow:hidden; transition:transform 0.18s ease, box-shadow 0.25s ease; transform-style:preserve-3d; will-change:transform; }
+  .avatar img{width:100%;height:100%;object-fit:cover;}
+  .avatar .avatar-fallback{display:none;}
+
+  /* Light sweep chay tren avatar (dung theo vi tri chuot) */
+  .avatar::before{
+    content:''; position:absolute; inset:-50%;
+    background:radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.32) 0%, rgba(255,255,255,0.08) 18%, transparent 38%);
+    opacity:0; transition:opacity 0.35s ease; pointer-events:none; z-index:3; mix-blend-mode:screen;
+  }
+  .avatar:hover::before{ opacity:1; }
+
+  /* Sweep mot lan khi load trang */
+  .avatar::after{
+    content:''; position:absolute; top:0; left:-150%; width:80%; height:100%;
+    background:linear-gradient(100deg, transparent 30%, rgba(255,255,255,0.28) 50%, transparent 70%);
+    transform:skewX(-20deg); pointer-events:none; z-index:4;
+    animation:avatarSweep 1.6s ease-out 0.6s 1 both;
+  }
+  @keyframes avatarSweep{
+    0%{ left:-150%; }
+    100%{ left:160%; }
+  }
+
+  /* Tilt 3D duoc ap bang JS qua inline transform */
+  .avatar-wrap.tilting .avatar{ box-shadow:0 14px 38px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04); }
+  .avatar-wrap.tilting{ perspective:600px; transform-style:preserve-3d; }
+  .avatar-decor{ position:absolute; top:50%; left:50%; width:148%; height:148%; transform:translate(-50%,-50%); object-fit:contain; pointer-events:none; z-index:3; }
+
+  /*   DISCORD LIVE STATUS (Lanyard) - icon trang thai giong Discord  */
+  .status-dot{
+    position:absolute; right:2px; bottom:2px; width:26px; height:26px; border-radius:50%;
+    background:var(--black); border:3px solid var(--black); z-index:4; display:none;
+    align-items:center; justify-content:center; box-sizing:border-box;
+    box-shadow:0 0 0 1px rgba(0,0,0,0.4); overflow:hidden;
+  }
+  .status-dot svg{ width:100%; height:100%; display:block; overflow:visible; }
+  .status-dot .sd-icon{ fill:none; stroke-linecap:round; stroke-linejoin:round; }
+
+  /* Online: vong tron xanh, cham xanh la nho o giua (Discord style) */
+  .status-dot.online{
+    background:#23a55a; display:flex;
+  }
+  .status-dot.online .sd-bg{ fill:#23a55a; }
+  .status-dot.online .sd-fg{ fill:#fff; }
+
+  /* Idle: mat trang vang voi khuon mat (Discord style) */
+  .status-dot.idle{
+    background:#f0b232; display:flex;
+  }
+  .status-dot.idle .sd-bg{ fill:#f0b232; }
+  .status-dot.idle .sd-moon{ fill:#fff; }
+  .status-dot.idle .sd-star{ fill:#fff; }
+
+  /* DND: do voi gach ngang o giua (Discord style) */
+  .status-dot.dnd{
+    background:#f23f42; display:flex;
+  }
+  .status-dot.dnd .sd-bg{ fill:#f23f42; }
+  .status-dot.dnd .sd-bar{ fill:#fff; }
+
+  /* Offline: vong tron den, vien xam nhat (Discord style) */
+  .status-dot.offline{
+    background:#80848e; display:flex;
+  }
+  .status-dot.offline .sd-bg{ fill:#80848e; }
+  .status-dot.offline .sd-hole{ fill:#1f2023; }
+
+  /*   ACTIVITY POPUP (Spotify / game dang choi)   */
+  .activity-card{
+    margin-top:18px; padding:11px 14px; border-radius:12px;
+    background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08);
+    display:none; align-items:center; gap:12px; text-align:left;
+    animation:fadeUp 0.5s ease both; position:relative;
+  }
+  .activity-card.is-visible{ display:flex; }
+  .activity-card .ac-art{
+    width:46px; height:46px; border-radius:8px; flex-shrink:0;
+    background:linear-gradient(145deg,#222,#000); object-fit:cover;
+    position:relative;
+  }
+  .activity-card .ac-art-wrap{ position:relative; width:46px; height:46px; flex-shrink:0; }
+  .activity-card .ac-art-wrap .ac-art{ width:100%; height:100%; }
+  .activity-card .ac-art-placeholder{
+    width:46px; height:46px; border-radius:8px; flex-shrink:0;
+    background:linear-gradient(145deg,var(--accent-color),transparent);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--black); font-size:1.2rem;
+    position:relative; z-index:1;
+  }
+  .activity-card .ac-info{ flex:1; min-width:0; }
+  .activity-card .ac-type{
+    font-size:0.6rem; letter-spacing:1.2px; text-transform:uppercase;
+    background:linear-gradient(90deg, #6a4a52, #c0a0a8 50%, #6a4a52); -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; margin-bottom:3px; opacity:0.95;
+  }
+  .activity-card .ac-title{
+    font-size:0.82rem; color:var(--text-color); font-weight:500;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .activity-card .ac-sub{
+    font-size:0.7rem; color:#888; margin-top:2px;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  /* Spotify progress bar (thanh tien do nghe nhac) */
+  .ac-progress{
+    position:absolute; left:11px; right:11px; bottom:5px; height:3px;
+    background:rgba(255,255,255,0.08); border-radius:2px; overflow:hidden;
+    opacity:0; transition:opacity 0.4s ease;
+  }
+  .ac-progress.is-visible{ opacity:1; }
+  .ac-progress .ac-prog-fill{
+    height:100%; width:0%;
+    background:linear-gradient(90deg, var(--accent-color), #fff);
+    border-radius:2px;
+    transition:width 1s linear;
+    box-shadow:0 0 8px color-mix(in srgb, var(--accent-color) 60%, transparent);
+  }
+  .ac-progress .ac-prog-time{
+    position:absolute; left:11px; bottom:11px; font-size:0.55rem; color:var(--accent-color);
+    opacity:0; transition:opacity 0.4s ease; letter-spacing:0.5px;
+    text-shadow:0 0 4px rgba(0,0,0,0.6);
+  }
+  .ac-progress.is-visible + .ac-prog-time, .ac-card.is-spotify .ac-prog-time{ opacity:1; }
+
+  .activity-card.is-spotify{ padding-bottom:22px; }
+  .activity-card .ac-bars{
+    display:flex; gap:2px; align-items:flex-end; height:14px; flex-shrink:0;
+  }
+  .activity-card .ac-bars span{
+    width:2.5px; background:var(--accent-color); border-radius:1px;
+    animation:barBounce 0.9s ease-in-out infinite;
+  }
+  .activity-card .ac-bars span:nth-child(1){ animation-delay:0s; height:40%; }
+  .activity-card .ac-bars span:nth-child(2){ animation-delay:0.15s; height:80%; }
+  .activity-card .ac-bars span:nth-child(3){ animation-delay:0.3s; height:55%; }
+  .activity-card .ac-bars span:nth-child(4){ animation-delay:0.45s; height:90%; }
+  @keyframes barBounce{
+    0%,100%{ transform:scaleY(0.4); }
+    50%{ transform:scaleY(1); }
+  }
+
+  /*   TYPING TITLE   */
+  .name{
+    font-family:'Cinzel',serif; font-weight:900; font-size:1.5rem; letter-spacing:1.5px; text-transform:uppercase;
+    /* Gradient: xam toi -> hong nhat giua -> xam toi */
+    background:linear-gradient(90deg, #3a3a3a 0%, #b88a93 35%, #f4cdd4 50%, #b88a93 65%, #3a3a3a 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; min-height:1.3em;
+  }
+  .cursor{ display:inline-block; color:#f4cdd4; -webkit-text-fill-color:#f4cdd4; margin-left:2px; animation:blink 0.9s steps(1) infinite; }
+  @keyframes blink{ 50%{ opacity:0; } }
+  /* Gradient hong-nhat giua chuyen dan xam 2 ben, ap dung cho: kanji, tagline, footer mark, badge, icon border */
+  .pink-grad{ background:linear-gradient(90deg, #3a3a3a, #b88a93 35%, #f4cdd4 50%, #b88a93 65%, #3a3a3a); -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; }
+  .name .kanji{ display:block; font-family:'Noto Sans JP',sans-serif; font-weight:300; font-size:0.85rem; letter-spacing:6px; margin-top:6px; }
+  .tagline{ margin-top:10px; font-size:0.9rem; font-weight:300; letter-spacing:0.5px; opacity:0.9; text-shadow:0 0 10px rgba(0,0,0,0.6); min-height:1.4em; }
+  .tagline-text{ display:inline; }
+  .tagline-cursor{ display:none; }
+  .tagline.rotating .tagline-text{ transition:opacity 0.25s ease; }
+
+  /*   ACTIVITY ART - xoay cham khi co anh discord, hinh vuong rounded  */
+  .ac-art-placeholder.spin-slow{ animation:slowSpin 18s linear infinite; font-size:1.8rem; }
+  .ac-art.spin-slow{ animation:slowSpin 18s linear infinite; border-radius:14px !important; }
+  @keyframes slowSpin{ to{ transform:rotate(360deg); } }
+
+  /*   FOOTER - fixed bottom-left  */
+  .footer-fixed{ position:fixed; left:calc(16px + env(safe-area-inset-left,0px)); bottom:calc(14px + env(safe-area-inset-bottom,0px)); z-index:40; font-size:0.7rem; color:#888; letter-spacing:1px; pointer-events:none; text-shadow:0 0 8px rgba(0,0,0,0.6); }
+  .footer-fixed span{ color:#f4cdd4; margin:0 4px; }
+
+  /*   CURSOR TRAIL (sakura)  */
+  .cursor-trail{ position:fixed; inset:0; pointer-events:none; z-index:45; }
+  .cursor-trail .trail-petal{ position:absolute; width:14px; height:14px; pointer-events:none; will-change:transform,opacity; }
+
+  /* Custom cursor: hot-spot 0,0 de tranh bi lech khi file nho */
+  html, body, .container, .card, .footer-fixed, .copy-tip{
+    cursor: url('cursor.png') 0 0, auto;
+  }
+  a, button, .link-btn, .audio-btn, .enter-overlay, .volume-slider, .enter-text{
+    cursor: url('cursor-pointer.png') 0 0, pointer;
+  }
+  .divider{ width:60px; height:1px; background:linear-gradient(90deg, transparent, #b88a93, transparent); margin:22px auto; opacity:0.4; }
+  .badges{ display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-bottom:24px; }
+  /* Badge: gradient den-hong-xam nen hồng-nhat, chữ gradient */
+  .badge{ font-size:0.68rem; letter-spacing:1px; text-transform:uppercase; padding:5px 12px; border:1px solid #b88a93; border-radius:20px; background:transparent; font-weight:500; }
+  .badge{ background-image:linear-gradient(90deg, #2a2a2a, #5a3a40, #b88a93); color:transparent; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+  .links{ display:flex; flex-direction:row; justify-content:center; align-items:center; gap:16px; }
+  .link-btn{ position:relative; display:flex; align-items:center; justify-content:center; width:48px; height:48px; padding:0; background:transparent; border:1.5px solid #b88a93; border-radius:50%; color:var(--icon-color); text-decoration:none; overflow:visible; transition:transform 0.25s ease, border-color 0.25s ease, background 0.25s ease; }
+  .link-btn .sweep-mask{ position:absolute; inset:0; border-radius:50%; overflow:hidden; pointer-events:none; }
+  .link-btn .sweep{ content:''; position:absolute; inset:0; background:linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent); transform:translateX(-100%); transition:transform 0.5s ease; pointer-events:none; }
+  .link-btn:hover .sweep{transform:translateX(100%);}
+  .link-btn:hover{ border-color:#f4cdd4; transform:translateY(-2px); }
+  .link-btn .icon{ width:20px; height:20px; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+  .link-btn .icon svg{ width:18px; height:18px; fill:currentColor; color:var(--icon-color); }
+  .copy-tip{ position:absolute; top:-36px; left:50%; transform:translateX(-50%) translateY(6px); background:rgba(0,0,0,0.9); border:1px solid var(--accent-color); color:var(--text-color); font-size:0.66rem; letter-spacing:0.4px; padding:5px 11px; border-radius:6px; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity 0.2s ease, transform 0.2s ease; z-index:5; }
+  .copy-tip::after{ content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%); border:5px solid transparent; border-top-color:var(--accent-color); }
+  .link-btn:hover .copy-tip{ opacity:1; transform:translateX(-50%) translateY(0); }
+  .footer{ margin-top:26px; font-size:0.7rem; color:#555; letter-spacing:1px; }
+  .footer span{color:var(--accent-color);}
+
+  /*   USERNAME EFFECTS   */
+  .name.fx-rainbow{ background:linear-gradient(90deg,#ff4d6d,#ffd166,#5cff95,#56ccf2,#b967ff,#ff4d6d); background-size:300% 100%; -webkit-background-clip:text; background-clip:text; animation:rainbowName 4s linear infinite; }
+  @keyframes rainbowName{ to{ background-position:300% 0; } }
+  .name.fx-fuzzy{ animation:fuzzyName 0.16s infinite alternate; text-shadow:1px 0 var(--accent-color), -1px 0 rgba(0,255,255,0.45); }
+  @keyframes fuzzyName{ from{ transform:translateX(-0.7px); filter:blur(0.2px); } to{ transform:translateX(0.7px); filter:blur(0.8px); } }
+  .name.fx-green{ background:linear-gradient(90deg,#d8ffe3,#28ff72,#d8ffe3); -webkit-background-clip:text; background-clip:text; }
+  .name.fx-blue{ background:linear-gradient(90deg,#d8f1ff,#3fa9ff,#d8f1ff); -webkit-background-clip:text; background-clip:text; }
+  .name.fx-pink{ background:linear-gradient(90deg,#ffe0ee,#ff6faf,#ffe0ee); -webkit-background-clip:text; background-clip:text; }
+  .name.fx-red{ background:linear-gradient(90deg,#ffe0e0,#ff3333,#ffe0e0); -webkit-background-clip:text; background-clip:text; }
+  .name.fx-white{ background:linear-gradient(90deg,#ffffff,#bbbbbb,#ffffff); -webkit-background-clip:text; background-clip:text; }
+  .name.fx-yellow{ background:linear-gradient(90deg,#fff7c2,#ffd400,#fff7c2); -webkit-background-clip:text; background-clip:text; }
+  .name.fx-neon{ text-shadow:0 0 8px var(--accent-color),0 0 18px var(--accent-color); }
+  .name.fx-glitch{ animation:glitchName 0.8s steps(2,end) infinite; text-shadow:2px 0 #ff005d,-2px 0 #00e5ff; }
+  @keyframes glitchName{ 0%,100%{ transform:skewX(0deg); } 20%{ transform:skewX(6deg); } 22%{ transform:skewX(-4deg); } 24%{ transform:skewX(0deg); } }
+  .sparkle-layer{ position:absolute; inset:-18px; pointer-events:none; overflow:visible; z-index:4; }
+  .sparkle{ position:absolute; color:var(--accent-color); font-size:12px; opacity:0; animation:sparklePop 1.4s ease-out forwards; }
+  @keyframes sparklePop{ 0%{ transform:scale(0.4) rotate(0deg); opacity:0; } 25%{ opacity:1; } 100%{ transform:scale(1.3) rotate(120deg); opacity:0; } }
+
+  /*   RESPONSIVE UI: tablet + mobile   */
+  @media (max-width:900px){
+    .container{ padding:calc(78px + env(safe-area-inset-top, 0px)) 18px calc(42px + env(safe-area-inset-bottom, 0px)); }
+    .card{ max-width:390px; }
+  }
+
+  @media (max-width:768px){
+    html,body{ min-height:100%; overflow-x:hidden; }
+    .bg-video-wrap video{ width:100%; height:100%; min-width:0; min-height:0; object-fit:cover; }
+    .audio-control{ top:calc(14px + env(safe-area-inset-top, 0px)); left:calc(14px + env(safe-area-inset-left, 0px)); }
+    .audio-btn{ width:44px; height:44px; }
+    .audio-btn svg{ width:18px; height:18px; }
+    .volume-slider{ left:52px; }
+    .card{ max-width:380px; padding:34px 24px 28px; border-radius:18px; }
+    .avatar-wrap{ --avatar-size:104px; margin-bottom:17px; }
+    .name{ font-size:clamp(1.18rem, 4.3vw, 1.45rem); letter-spacing:1.1px; }
+    .name .kanji{ font-size:0.78rem; letter-spacing:5px; }
+    .tagline{ font-size:0.86rem; line-height:1.55; }
+    .links{ gap:14px; }
+  }
+
+  @media (hover:none) and (pointer:coarse){
+    .volume-slider{ width:72px; opacity:0.9; pointer-events:auto; }
+    .audio-control:hover .volume-slider,.audio-control:focus-within .volume-slider{ width:72px; }
+    .copy-tip{ display:none; }
+    .link-btn,.audio-btn{ -webkit-tap-highlight-color:transparent; }
+  }
+
+  @media (max-width:480px){
+    .container{ padding:calc(86px + env(safe-area-inset-top, 0px)) 14px calc(30px + env(safe-area-inset-bottom, 0px)); }
+    .card{ max-width:100%; padding:28px 16px 24px; border-radius:16px; }
+    .avatar-wrap{ --avatar-size:92px; margin-bottom:16px; }
+    .avatar{ font-size:1.9rem; border-width:1.5px; }
+    .avatar-decor{ width:146%; height:146%; }
+    .name{ font-size:clamp(1.08rem, 6vw, 1.25rem); letter-spacing:0.8px; }
+    .name .kanji{ font-size:0.7rem; letter-spacing:3.8px; margin-top:5px; }
+    .tagline{ margin-top:9px; font-size:0.8rem; }
+    .divider{ margin:18px auto; }
+    .badges{ gap:8px; margin-bottom:20px; }
+    .badge{ font-size:0.6rem; padding:4px 10px; }
+    .links{ gap:13px; }
+    .link-btn{ width:44px; height:44px; }
+    .link-btn .icon svg{ width:17px; height:17px; }
+    .audio-control{ top:calc(12px + env(safe-area-inset-top, 0px)); left:calc(12px + env(safe-area-inset-left, 0px)); }
+    .audio-btn{ width:42px; height:42px; }
+    .volume-slider{ left:50px; width:68px; }
+    .footer{ margin-top:22px; font-size:0.64rem; }
+    .enter-text{ font-size:0.78rem; letter-spacing:2.3px; }
+  }
+
+  @media (max-width:360px){
+    .container{ padding-left:10px; padding-right:10px; }
+    .card{ padding:24px 13px 22px; }
+    .avatar-wrap{ --avatar-size:84px; }
+    .name{ font-size:1.02rem; letter-spacing:0.55px; }
+    .name .kanji{ letter-spacing:3px; }
+    .tagline{ font-size:0.76rem; }
+    .badge{ font-size:0.56rem; padding:4px 8px; }
+    .link-btn{ width:42px; height:42px; }
+  }
+
+  @media (max-height:560px) and (orientation:landscape){
+    .container{ justify-content:flex-start; padding-top:calc(70px + env(safe-area-inset-top, 0px)); padding-bottom:24px; }
+    .card{ padding:22px 22px 20px; }
+    .avatar-wrap{ --avatar-size:76px; margin-bottom:12px; }
+    .name{ font-size:1.05rem; }
+    .name .kanji{ font-size:0.65rem; margin-top:4px; }
+    .tagline{ margin-top:7px; }
+    .divider{ margin:14px auto; }
+    .badges{ margin-bottom:16px; }
+    .footer{ margin-top:16px; }
+  }
+
+  /*   CLICK TO ENTER OVERLAY   */
+  .enter-overlay{ position:fixed; inset:0; z-index:100; background:rgba(0,0,0,0.55); backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px); display:flex; align-items:center; justify-content:center; cursor: url('cursor-pointer.png') 0 0, pointer; transition:opacity 0.6s ease, visibility 0.6s ease; }
+  .enter-overlay.leaving{ opacity:0; visibility:visible; pointer-events:auto; }
+  .enter-overlay.hidden{ opacity:0; visibility:hidden; pointer-events:none; }
+  .enter-text{ font-family:'Noto Sans JP',sans-serif; font-weight:500; font-size:0.85rem; letter-spacing:3px; text-transform:uppercase; color:var(--text-color); animation:enterFade 1.8s ease-in-out infinite; }
+  @keyframes enterFade{ 0%,100%{ opacity:0.5; } 50%{ opacity:1; } }
+</style>
+</head>
+<body>
+
+  <div class="enter-overlay" id="enterOverlay" role="button" tabindex="0" aria-label="Click to enter">
+    <div class="enter-text">Click to enter...</div>
+  </div>
+
+  <div class="bg-video-wrap">
+    <canvas id="videoCanvasBg" aria-hidden="true"></canvas>
+    <video muted loop playsinline="playsinline" webkit-playsinline="webkit-playsinline" x5-playsinline="true" x5-video-player-type="h5-page" x5-video-player-fullscreen="false" x-webkit-airplay="deny" disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback" preload="auto" fetchpriority="high" id="bgVideo" aria-hidden="true" tabindex="-1">
+      <source src="yournameedit.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="bg-fallback" id="bgFallback"></div>
+  <div class="fx-blur-layer" id="fxBlurLayer"></div>
+  <div class="bg-overlay"></div>
+  <div class="bg-grain"></div>
+
+  <div class="fx-overlay" id="fxPlasma"><div class="fx-plasma-fill"></div></div>
+  <div class="fx-overlay" id="fxAurora"><div class="fx-aurora-fill"></div></div>
+  <div class="fx-overlay fx-dither" id="fxDither"></div>
+  <div class="fx-overlay fx-night" id="fxNight"></div>
+  <div class="fx-overlay fx-oldtv-scan" id="fxOldtvScan"></div>
+  <div class="fx-overlay fx-oldtv-vignette" id="fxOldtvVignette"></div>
+
+  <div class="audio-control" id="audioControl">
+    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.25">
+    <button class="audio-btn" id="audioToggle" aria-label="Bat/tat am thanh">
+      <svg class="icon-on" viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 010 7.07"/><path d="M18.36 5.64a9 9 0 010 12.72"/></svg>
+      <svg class="icon-off" viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+    </button>
+  </div>
+
+  <canvas id="particle-canvas"></canvas>
+
+  <div class="container">
+    <div class="card">
+      <div class="card-inner">
+        <div class="avatar-wrap">
+          <div class="avatar-ring"></div>
+          <div class="avatar">
+            <img src="https://cdn.discordapp.com/avatars/1004917748264087665/archived/1520847062839595079/b750fc414bdbeb1fe871604ff82428ce.webp?size=2048" alt="avatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <span class="avatar-fallback">忍</span>
+          </div>
+          <img class="avatar-decor" src="https://cdn.discordapp.com/media/v1/collectibles-shop/1228251144065777765/animated" alt="decoration" onerror="this.style.display='none';">
+          <span class="status-dot" id="statusDot" aria-label="Discord status">
+            <svg class="sd-icon" viewBox="0 0 24 24" aria-hidden="true"></svg>
+          </span>
+        </div>
+
+        <div class="info-col">
+          <h1 class="name" id="nameTitle">
+            <span id="typedTitle"></span><span class="cursor">|</span>
+            <span class="kanji">こ ん に ち は</span>
+          </h1>
+          <p class="tagline" id="tagline"><span class="tagline-text">Đây là 1 dòng chữ.*</span><span class="tagline-cursor">|</span></p>
+
+          <div class="activity-card" id="activityCard">
+            <div class="ac-art-wrap" id="acArtWrap">
+              <img class="ac-art" id="acArt" alt="" style="display:none;">
+            </div>
+            <div class="ac-art-placeholder" id="acArtPh" aria-hidden="true">🌸</div>
+            <div class="ac-info">
+              <div class="ac-type" id="acType">Doing nothing..</div>
+              <div class="ac-title" id="acTitle">Ở dưới là 1 dòng chữ.</div>
+              <div class="ac-sub" id="acSub">Ở trên là 1 dòng chữ.</div>
+            </div>
+            <div class="ac-bars" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+          </div>
+          <div class="ac-progress" id="acProgress"><div class="ac-prog-fill" id="acProgFill"></div></div>
+
+          <div class="divider"></div>
+          <div class="badges"><span class="badge">Learning code</span><span class="badge">Gamer</span></div>
+          <div class="links">
+            <a class="link-btn" href="javascript:void(0)" data-copy="https://discord.com/users/1004917748264087665" data-label="Discord">
+              <span class="sweep-mask"><span class="sweep"></span></span>
+              <span class="icon"><svg viewBox="0 0 24 24"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.0991.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg></span>
+              <span class="copy-tip">Copy Discord</span>
+            </a>
+            <a class="link-btn" href="javascript:void(0)" data-copy="https://www.youtube.com/watch?v=QDia3e12czc" data-label="YouTube">
+              <span class="sweep-mask"><span class="sweep"></span></span>
+              <span class="icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-2.5 14.5v-9l7 4.5-7 4.5z"/></svg></span>
+              <span class="copy-tip">Copy YouTube</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Cursor trail canvas (sakura) -->
+  <canvas class="cursor-trail" id="cursorTrail"></canvas>
+
+  <!-- Footer fixed bottom-left -->
+  <div class="footer-fixed">Made with <span>&#10047;</span> Sonnet 5 <span>&middot;</span> 2026</div>
+
+<script>
+  //   Video background  
+  const bgVideo = document.getElementById('bgVideo');
+  const bgFallback = document.getElementById('bgFallback');
+  const videoCanvasBg = document.getElementById('videoCanvasBg');
+  const videoCanvasCtx = videoCanvasBg ? videoCanvasBg.getContext('2d') : null;
+
+  // iOS/Safari fix: video nen khong nhan click truc tiep. Truoc khi enter chi preload/load,
+  // khong autoplay de PC khong phat truoc khi bam Click to enter.
+  bgVideo.controls = false;
+  bgVideo.muted = true;
+  bgVideo.defaultMuted = true;
+  bgVideo.playsInline = true;
+  bgVideo.disablePictureInPicture = true;
+  bgVideo.setAttribute('playsinline', '');
+  bgVideo.setAttribute('webkit-playsinline', '');
+  bgVideo.setAttribute('x-webkit-airplay', 'deny');
+  bgVideo.setAttribute('controlslist', 'nodownload nofullscreen noremoteplayback');
+  bgVideo.removeAttribute('controls');
+  bgVideo.addEventListener('error', () => {
+    const err = bgVideo.error;
+    const codes = { 1:'MEDIA_ERR_ABORTED (tai bi huy)', 2:'MEDIA_ERR_NETWORK (khong tim thay file / loi duong dan)', 3:'MEDIA_ERR_DECODE (file hong hoac SAI CODEC - thuong gap voi video HEVC/H.265 quay tu iPhone, can encode lai sang H.264)', 4:'MEDIA_ERR_SRC_NOT_SUPPORTED (sai duong dan hoac dinh dang khong duoc trinh duyet ho tro)' };
+    console.error('[bgVideo] Khong phat duoc video nen. Ma loi:', err ? (codes[err.code] || err.code) : 'khong xac dinh', '| dang thu duong dan:', bgVideo.currentSrc || '(rong)');
+    bgVideo.style.display = 'none';
+    bgFallback.style.display = 'block';
+  });
+  bgVideo.addEventListener('loadeddata', () => {
+    bgVideo.classList.add('is-ready');
+    console.log('[bgVideo] kich thuoc thuc:', bgVideo.videoWidth, 'x', bgVideo.videoHeight, '| thoi luong:', bgVideo.duration, 'giay');
+  });
+  bgVideo.addEventListener('loadedmetadata', () => bgVideo.classList.add('is-ready'));
+  bgVideo.addEventListener('canplay', () => bgVideo.classList.add('is-ready'));
+  bgVideo.addEventListener('canplaythrough', () => bgVideo.classList.add('is-ready'));
+  bgVideo.addEventListener('playing', () => bgVideo.classList.add('is-ready'));
+  ['loadstart','loadedmetadata','loadeddata','canplay','canplaythrough','playing','stalled','suspend','waiting','abort','emptied'].forEach(evt => {
+    bgVideo.addEventListener(evt, () => console.log('[bgVideo] su kien:', evt, '| readyState:', bgVideo.readyState, '| networkState:', bgVideo.networkState));
+  });
+
+  //   Audio control: dung CHINH b.mp4 de audio luon khop voi video edit.
+  //   Fix iPhone: khong go muted TRUOC khi play(). Neu go muted truoc play, iOS co the ep mo native fullscreen player.
+  //   Tren iPhone/iPad, audio duoc route tu CHINH video element qua Web Audio API nen van sync theo currentTime cua video, khong tao audio/video rieng bi lech.
+  const audioToggle = document.getElementById('audioToggle');
+  const volumeSlider = document.getElementById('volumeSlider');
+  const enterOverlay = document.getElementById('enterOverlay');
+  const isIOSLike = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+
+  // iPhone fix manh: khong hien truc tiep the <video> nua, vi mot so iOS/In-App Browser
+  // van ep mo native fullscreen player. Thay vao do, ve tung frame video len canvas nen.
+  // Audio/timing van lay tu CHINH bgVideo nen khong tach audio va khong lech edit.
+  // iOS update: khong dung canvas/offscreen-video nua vi Safari co the khong decode frame
+  // cho den khi nguoi dung bam lan 2. Dung truc tiep video nen + tap-guard de tranh fullscreen.
+  const useCanvasVideoBg = false;
+  if (useCanvasVideoBg) document.body.classList.add('ios-canvas-bg');
+
+  function resizeVideoCanvasBg(){
+    if (!useCanvasVideoBg) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    videoCanvasBg.width = Math.max(1, Math.floor(window.innerWidth * dpr));
+    videoCanvasBg.height = Math.max(1, Math.floor(window.innerHeight * dpr));
+  }
+
+  function drawVideoToCanvasBg(){
+    if (!useCanvasVideoBg) return;
+    const vw = bgVideo.videoWidth || 0;
+    const vh = bgVideo.videoHeight || 0;
+    const cw = videoCanvasBg.width;
+    const ch = videoCanvasBg.height;
+    if (vw > 0 && vh > 0 && cw > 0 && ch > 0 && bgVideo.readyState >= 2) {
+      const videoRatio = vw / vh;
+      const canvasRatio = cw / ch;
+      let sx = 0, sy = 0, sw = vw, sh = vh;
+      if (videoRatio > canvasRatio) {
+        sw = vh * canvasRatio;
+        sx = (vw - sw) / 2;
+      } else {
+        sh = vw / canvasRatio;
+        sy = (vh - sh) / 2;
+      }
+      try {
+        videoCanvasCtx.drawImage(bgVideo, sx, sy, sw, sh, 0, 0, cw, ch);
+        videoCanvasBg.classList.add('is-ready');
+      } catch (err) {
+        // Neu browser chua cho ve frame dau tien, thu lai frame sau.
+      }
+    }
+    requestAnimationFrame(drawVideoToCanvasBg);
+  }
+
+  if (useCanvasVideoBg) {
+    resizeVideoCanvasBg();
+    window.addEventListener('resize', resizeVideoCanvasBg);
+    window.addEventListener('orientationchange', () => setTimeout(resizeVideoCanvasBg, 250));
+    requestAnimationFrame(drawVideoToCanvasBg);
+  }
+
+  let userEntered = false;
+  let userMuted = false;
+  let enterHandled = false;
+  let audioCtx = null;
+  let mediaSourceNode = null;
+  let mediaGainNode = null;
+  let iosWebAudioMode = false;
+
+  //   Helper functions (hoisted de trail/tat ca block phia sau dung duoc)
+  function getCssVar(name){
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  }
+  function hexToRgb(hex){
+    hex = (hex || '#ffb7c5').trim();
+    if (hex[0] === '#') hex = hex.slice(1);
+    if (hex.length === 3) hex = hex.split('').map(ch => ch + ch).join('');
+    const n = parseInt(hex, 16);
+    if (Number.isNaN(n)) return { r:255, g:183, b:197 };
+    return { r:(n >> 16) & 255, g:(n >> 8) & 255, b:n & 255 };
+  }
+  function mixRgb(a, b, t){
+    return {
+      r: Math.round(a.r + (b.r - a.r) * t),
+      g: Math.round(a.g + (b.g - a.g) * t),
+      b: Math.round(a.b + (b.b - a.b) * t)
+    };
+  }
+  function rgba(c, a){
+    return 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + a + ')';
+  }
+
+  function keepVideoInlineBase(){
+    bgVideo.controls = false;
+    bgVideo.playsInline = true;
+    bgVideo.disablePictureInPicture = true;
+    bgVideo.setAttribute('playsinline', 'playsinline');
+    bgVideo.setAttribute('webkit-playsinline', 'webkit-playsinline');
+    bgVideo.removeAttribute('autoplay');
+    bgVideo.setAttribute('x5-playsinline', 'true');
+    bgVideo.setAttribute('x5-video-player-type', 'h5-page');
+    bgVideo.setAttribute('x5-video-player-fullscreen', 'false');
+    bgVideo.setAttribute('x-webkit-airplay', 'deny');
+    bgVideo.setAttribute('controlslist', 'nodownload nofullscreen noremoteplayback');
+    bgVideo.removeAttribute('controls');
+    if (typeof bgVideo.webkitSetPresentationMode === 'function') {
+      try { bgVideo.webkitSetPresentationMode('inline'); } catch (e) {}
+    }
+  }
+
+  function getVolume(){
+    return Math.max(0, Math.min(1, parseFloat(volumeSlider.value || '0.25')));
+  }
+
+  function prepareInlineMutedVideo(){
+    keepVideoInlineBase();
+    // Luon giu muted trong luc goi play() de iPhone khong mo native fullscreen player.
+    bgVideo.defaultMuted = true;
+    bgVideo.muted = true;
+    bgVideo.volume = isIOSLike ? 1 : 0;
+  }
+
+  function closeForcedFullscreen(){
+    try {
+      if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen();
+      if (document.webkitFullscreenElement && document.webkitExitFullscreen) document.webkitExitFullscreen();
+      if (bgVideo.webkitDisplayingFullscreen && bgVideo.webkitExitFullscreen) bgVideo.webkitExitFullscreen();
+      if (typeof bgVideo.webkitSetPresentationMode === 'function') bgVideo.webkitSetPresentationMode('inline');
+    } catch (e) {}
+  }
+
+  function initSameVideoWebAudio(){
+    if (!AudioCtx) return false;
+    try {
+      if (!audioCtx) audioCtx = new AudioCtx();
+      if (!mediaSourceNode) {
+        mediaSourceNode = audioCtx.createMediaElementSource(bgVideo);
+        mediaGainNode = audioCtx.createGain();
+        mediaSourceNode.connect(mediaGainNode);
+        mediaGainNode.connect(audioCtx.destination);
+      }
+      iosWebAudioMode = true;
+      return true;
+    } catch (err) {
+      console.warn('[audio] Khong khoi tao duoc Web Audio tu video:', err && err.message ? err.message : err);
+      return false;
+    }
+  }
+
+  function applyAudioState(){
+    const vol = getVolume();
+    if (iosWebAudioMode && mediaGainNode) {
+      // iOS: video van muted de khong bi fullscreen, nhung audio lay tu chinh video qua GainNode.
+      bgVideo.defaultMuted = true;
+      bgVideo.muted = true;
+      bgVideo.volume = 1;
+      mediaGainNode.gain.value = userMuted ? 0 : vol;
+    } else if (userEntered) {
+      // Desktop/Android: co the dung audio truc tiep tu video sau user gesture.
+      bgVideo.defaultMuted = false;
+      bgVideo.muted = userMuted || vol === 0;
+      bgVideo.volume = vol;
+    } else {
+      prepareInlineMutedVideo();
+    }
+  }
+
+  function syncAudioUI(){
+    const muted = userMuted || getVolume() === 0;
+    audioToggle.classList.toggle('is-muted', muted);
+  }
+
+  function resumeAudioContext(){
+    if (audioCtx && audioCtx.state !== 'running') {
+      return audioCtx.resume().catch(() => {});
+    }
+    return Promise.resolve();
+  }
+
+  function playInlineVideo(){
+    keepVideoInlineBase();
+    if (useCanvasVideoBg) document.body.classList.add('ios-canvas-bg');
+    return bgVideo.play().catch((err) => {
+      console.warn('[bgVideo] Safari/Browser chan play tam thoi:', err && err.message ? err.message : err);
+    });
+  }
+
+  // Truoc khi bam enter: chi PRELOAD/LOAD file video, KHONG play.
+  // Nhu vay PC/iPhone co thoi gian tai video nang, nhung audio + video chi chay sau khi bam Click to enter.
+  prepareInlineMutedVideo();
+  audioToggle.classList.remove('is-muted');
+  bgVideo.removeAttribute('autoplay');
+  bgVideo.load();
+  try {
+    bgVideo.pause();
+    bgVideo.currentTime = 0;
+  } catch (e) {}
+
+  // Chan iPhone/Safari hieu nham tap vao nen video la tap de mo native fullscreen.
+  ['click','dblclick','touchstart','touchend','pointerdown','pointerup'].forEach(evt => {
+    bgVideo.addEventListener(evt, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }, { passive:false });
+  });
+
+  ['click','dblclick','touchstart','touchend','pointerdown','pointerup'].forEach(evt => {
+    document.addEventListener(evt, (e) => {
+      if (e.target === bgVideo || (e.composedPath && e.composedPath().includes(bgVideo))) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        return false;
+      }
+    }, { capture:true, passive:false });
+  });
+
+  // Neu iOS van ep mo fullscreen, thoat ra va resume inline.
+  ['webkitbeginfullscreen','fullscreenchange','webkitfullscreenchange','webkitpresentationmodechanged'].forEach(evt => {
+    bgVideo.addEventListener(evt, () => {
+      if (enterOverlay) enterOverlay.classList.add('hidden');
+      setTimeout(() => {
+        closeForcedFullscreen();
+        keepVideoInlineBase();
+        if (userEntered) {
+          prepareInlineMutedVideo();
+          playInlineVideo().then(() => {
+            applyAudioState();
+            syncAudioUI();
+          });
+        }
+      }, 60);
+    });
+  });
+
+  function hideEnterOverlaySafely(){
+    // iOS tao them synthetic click sau touch. Neu an overlay ngay, click do co the roi xuong video nen
+    // va mo native fullscreen player. De overlay vo hinh giu pointer-events them 0.8s de chan no.
+    enterOverlay.classList.add('leaving');
+    setTimeout(() => {
+      enterOverlay.classList.remove('leaving');
+      enterOverlay.classList.add('hidden');
+    }, isIOSLike ? 800 : 120);
+  }
+
+  function startMp4WithSoundFromFirstTap(){
+    keepVideoInlineBase();
+    iosWebAudioMode = false;
+    const vol = getVolume();
+
+    // Chi bat dau phat trong user gesture Click to enter. Goi play() khi muted de Safari giu inline,
+    // sau do unmute trong cung gesture de audio lay tu chinh b.mp4 va khop edit.
+    bgVideo.defaultMuted = true;
+    bgVideo.muted = true;
+    bgVideo.volume = vol;
+
+    const playPromise = bgVideo.play().catch((err) => {
+      console.warn('[bgVideo] Safari/Browser chan play tam thoi:', err && err.message ? err.message : err);
+    });
+
+    bgVideo.defaultMuted = false;
+    bgVideo.muted = userMuted || vol === 0;
+    bgVideo.volume = vol;
+
+    return Promise.resolve(playPromise).then(() => {
+      keepVideoInlineBase();
+      bgVideo.defaultMuted = false;
+      bgVideo.muted = userMuted || vol === 0;
+      bgVideo.volume = vol;
+      bgVideo.classList.add('is-ready');
+      closeForcedFullscreen();
+      syncAudioUI();
+    });
+  }
+
+  function handleEnter(e){
+    if (e) {
+      try { e.preventDefault(); } catch (_) {}
+      try { e.stopPropagation(); } catch (_) {}
+      try { if (e.stopImmediatePropagation) e.stopImmediatePropagation(); } catch (_) {}
+    }
+    if (enterHandled) return false;
+    enterHandled = true;
+    userEntered = true;
+    userMuted = false;
+
+    // Profile hien sau lan bam dau tien, overlay vo hinh van chan tap roi xuong video trong choc lat.
+    try { hideEnterOverlaySafely(); } catch (_) {
+      if (enterOverlay) {
+        enterOverlay.classList.add('hidden');
+        enterOverlay.style.display = 'none';
+      }
+    }
+    try { startMp4WithSoundFromFirstTap(); } catch (err) {
+      console.warn('[enter] start video fail:', err);
+    }
+
+    setTimeout(() => {
+      try {
+        closeForcedFullscreen();
+        keepVideoInlineBase();
+        if (bgVideo.paused) startMp4WithSoundFromFirstTap();
+        syncAudioUI();
+      } catch (_) {}
+    }, 260);
+    return false;
+  }
+
+  // iPhone fix quan trong: dung touchend + click guard. Khong dung touchstart de tranh an overlay qua som.
+  if (enterOverlay) {
+    // Dang ky nhieu kenh de dam bao click/tap luon vao duoc
+    ['click','pointerup','touchend','keydown'].forEach((evt) => {
+      enterOverlay.addEventListener(evt, (e) => {
+        if (evt === 'keydown' && e.key !== 'Enter' && e.key !== ' ') return;
+        handleEnter(e);
+      }, { once:false, passive:false, capture:true });
+    });
+    // Inline fallback neu addEventListener bi loi o moi truong cu
+    enterOverlay.onclick = handleEnter;
+  }
+
+  audioToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    userMuted = !userMuted;
+    iosWebAudioMode = false;
+    resumeAudioContext().then(() => {
+      applyAudioState();
+      if (userEntered && bgVideo.paused) startMp4WithSoundFromFirstTap();
+      syncAudioUI();
+    });
+  });
+
+  volumeSlider.addEventListener('input', (e) => {
+    const vol = parseFloat(e.target.value);
+    userMuted = vol === 0;
+    if (mediaGainNode) mediaGainNode.gain.value = userMuted ? 0 : vol;
+    if (!iosWebAudioMode) bgVideo.volume = vol;
+    if (userEntered) applyAudioState();
+    if (userEntered && bgVideo.paused) startMp4WithSoundFromFirstTap();
+    syncAudioUI();
+  });
+
+  // iPhone/Safari co the pause video khi doi tab, xoay man hinh, hoac thoat native player. Resume de tranh dung 1 frame.
+  bgVideo.addEventListener('pause', () => {
+    if (userEntered) {
+      setTimeout(() => {
+        if (bgVideo.paused) {
+          keepVideoInlineBase();
+          startMp4WithSoundFromFirstTap().then(applyAudioState);
+        }
+      }, 180);
+    }
+  });
+
+  ['visibilitychange','pageshow','focus','resize','orientationchange'].forEach(evt => {
+    window.addEventListener(evt, () => {
+      if (userEntered) {
+        closeForcedFullscreen();
+        keepVideoInlineBase();
+        resumeAudioContext().then(() => startMp4WithSoundFromFirstTap()).then(applyAudioState);
+      }
+    });
+  });
+
+  //   Chan thao tac Inspect pho thong tren PC. Chi la lop can tro co ban, khong bao mat tuyet doi.
+  document.addEventListener('contextmenu', (e) => e.preventDefault());
+  document.addEventListener('keydown', (e) => {
+    const key = (e.key || '').toLowerCase();
+    const ctrlOrMeta = e.ctrlKey || e.metaKey;
+    const inspectShortcut =
+      key === 'f12' ||
+      (ctrlOrMeta && e.shiftKey && ['i','j','c','k'].includes(key)) ||
+      (ctrlOrMeta && ['u','s'].includes(key)) ||
+      (e.metaKey && e.altKey && ['i','j','c'].includes(key));
+    if (inspectShortcut) {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
+  }, true);
+
+  //   Username effects  
+  const nameTitle = document.getElementById('nameTitle');
+  const typedTitle = document.getElementById('typedTitle');
+  const fullText = 'HiyVipPro_123';
+  let usernameEffect = 'typewriter';
+  let charIndex = 0;
+  let deleting = false;
+  let typeLoopTimer = null;
+  let shuffleTimer = null;
+  let sparkleTimer = null;
+  const shuffleChars = 'アイウエオカキクケコサシスセソ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_+-*/';
+
+  function clearUsernameTimers(){
+    clearTimeout(typeLoopTimer);
+    clearInterval(shuffleTimer);
+    clearInterval(sparkleTimer);
+    shuffleTimer = null;
+    sparkleTimer = null;
+  }
+
+  function typeLoop(){
+    if (usernameEffect !== 'typewriter') return;
+    if (!deleting) {
+      charIndex++;
+      typedTitle.textContent = fullText.slice(0, charIndex);
+      if (charIndex >= fullText.length) {
+        deleting = true;
+        typeLoopTimer = setTimeout(typeLoop, 4800);
+        return;
+      }
+    } else {
+      charIndex--;
+      typedTitle.textContent = fullText.slice(0, charIndex);
+      if (charIndex <= 0) {
+        deleting = false;
+        typeLoopTimer = setTimeout(typeLoop, 500);
+        return;
+      }
+    }
+    typeLoopTimer = setTimeout(typeLoop, deleting ? 60 : 40);
+  }
+
+  function startShuffleName(){
+    let tick = 0;
+    shuffleTimer = setInterval(() => {
+      tick++;
+      typedTitle.textContent = fullText.split('').map((ch, i) => {
+        if (ch === '_' || tick % 9 > i % 9) return ch;
+        return shuffleChars[Math.floor(Math.random() * shuffleChars.length)];
+      }).join('');
+      if (tick % 26 === 0) typedTitle.textContent = fullText;
+    }, 85);
+  }
+
+  function startSparkles(){
+    let layer = nameTitle.querySelector('.sparkle-layer');
+    if (!layer) {
+      layer = document.createElement('span');
+      layer.className = 'sparkle-layer';
+      nameTitle.appendChild(layer);
+    }
+    sparkleTimer = setInterval(() => {
+      const s = document.createElement('span');
+      s.className = 'sparkle';
+      s.textContent = ['✦','✧','✶','⋆','✿'][Math.floor(Math.random() * 5)];
+      s.style.left = Math.random() * 100 + '%';
+      s.style.top = Math.random() * 100 + '%';
+      layer.appendChild(s);
+      setTimeout(() => s.remove(), 1500);
+    }, 220);
+  }
+
+  function applyUsernameEffect(effect){
+    usernameEffect = effect;
+    clearUsernameTimers();
+    nameTitle.className = 'name';
+    typedTitle.textContent = fullText;
+    charIndex = 0;
+    deleting = false;
+    const oldLayer = nameTitle.querySelector('.sparkle-layer');
+    if (oldLayer) oldLayer.remove();
+
+    if (effect === 'typewriter') {
+      typedTitle.textContent = '';
+      typeLoop();
+      return;
+    }
+    if (effect === 'shuffle') startShuffleName();
+    if (effect === 'sparkles') startSparkles();
+    if (!['typewriter','shuffle','sparkles','static'].includes(effect)) nameTitle.classList.add('fx-' + effect);
+  }
+  applyUsernameEffect('typewriter');
+
+  //   Discord live status via Lanyard (REST + WebSocket)
+  //   Can JOIN Discord server Lanyard: https://discord.gg/lanyard
+  const DISCORD_USER_ID = '1004917748264087665';
+  const DOING_NOTHING_IMG = 'https://cdn.discordapp.com/attachments/1327664793544560664/1526561725493547099/image.png?ex=6a5778e5&is=6a562765&hm=a3d98aad385c14474500f3f3d2e7ca95d8e5e96abae869e96397441b39ab650d';
+  const statusDot = document.getElementById('statusDot');
+  const activityCard = document.getElementById('activityCard');
+  const acArt = document.getElementById('acArt');
+  const acArtPh = document.getElementById('acArtPh');
+  const acArtWrap = document.getElementById('acArtWrap');
+  const acType = document.getElementById('acType');
+  const acTitle = document.getElementById('acTitle');
+  const acSub = document.getElementById('acSub');
+  const acBars = activityCard ? activityCard.querySelector('.ac-bars') : null;
+  const acProgress = document.getElementById('acProgress');
+  const acProgFill = document.getElementById('acProgFill');
+  const acProgTimer = { t: null };
+
+  function setActivityArt(url, fallbackEmoji, spin){
+    if (!acArt || !acArtPh) return;
+    acArt.classList.toggle('spin-slow', !!spin);
+    acArtPh.classList.toggle('spin-slow', !!spin);
+    if (url) {
+      acArt.src = url;
+      acArt.style.display = 'block';
+      acArtPh.style.display = 'none';
+      if (acArtWrap) acArtWrap.classList.add('has-art');
+      acArt.onerror = () => {
+        acArt.style.display = 'none';
+        acArtPh.style.display = 'flex';
+        acArtPh.textContent = fallbackEmoji || '🌸';
+        acArtPh.classList.toggle('spin-slow', !!spin);
+        if (acArtWrap) acArtWrap.classList.remove('has-art');
+      };
+    } else {
+      acArt.style.display = 'none';
+      acArtPh.style.display = 'flex';
+      acArtPh.textContent = fallbackEmoji || '🌸';
+      if (acArtWrap) acArtWrap.classList.remove('has-art');
+    }
+  }
+
+  function resolveAssetUrl(asset, applicationId){
+    if (!asset || typeof asset !== 'string') return '';
+    // External media proxy: mp:external/<hash>/https/domain/path
+    if (asset.startsWith('mp:external/')) {
+      const raw = asset.slice('mp:external/'.length);
+      const slash = raw.indexOf('/');
+      if (slash === -1) return 'https://media.discordapp.net/external/' + raw;
+      const rest = raw.slice(slash + 1);
+      if (rest.startsWith('https/') || rest.startsWith('http/')) {
+        return rest.replace(/^https\//, 'https://').replace(/^http\//, 'http://');
+      }
+      return 'https://media.discordapp.net/external/' + raw;
+    }
+    // Media proxy alias
+    if (asset.startsWith('mp:')) {
+      return 'https://media.discordapp.net/' + asset.slice(3);
+    }
+    if (asset.startsWith('spotify:')) {
+      return 'https://i.scdn.co/image/' + asset.replace('spotify:', '');
+    }
+    if (asset.startsWith('http://') || asset.startsWith('https://')) return asset;
+    // Twitch / YouTube style ids sometimes appear as plain hashes with app id
+    if (applicationId) {
+      return 'https://cdn.discordapp.com/app-assets/' + applicationId + '/' + asset + '.png';
+    }
+    return '';
+  }
+
+  // Chi lay anh tu Discord activity (large/small image), khong tu them logo ngoai.
+  function resolveActivityImage(activity){
+    if (!activity) return '';
+    const appId = activity.application_id || '';
+    const assets = activity.assets || {};
+    const candidates = [assets.large_image, assets.small_image].filter(Boolean);
+    for (let i = 0; i < candidates.length; i++) {
+      const url = resolveAssetUrl(candidates[i], appId);
+      if (url) return url;
+    }
+    return '';
+  }
+
+  // SVG icon Discord-style cho cac trang thai
+  const STATUS_ICONS = {
+    // Online: vong tron xanh voi cham tron trang nho o giua
+    online:
+      '<rect class="sd-bg" x="0" y="0" width="24" height="24" rx="12" ry="12"/>' +
+      '<circle class="sd-fg" cx="12" cy="12" r="3.6"/>',
+
+    // Idle: vang voi mat trang khuyet lon, can giua chinh giua
+    idle:
+      '<rect class="sd-bg" x="0" y="0" width="24" height="24" rx="12" ry="12"/>' +
+      // Mat trang khuyet: vong tron 14 o vi tri (12,12), cat ben phai
+      '<circle class="sd-moon" cx="14.5" cy="12" r="7" fill="#fff"/>' +
+      '<circle class="sd-moon-mask" cx="17.5" cy="12" r="6.4" fill="#f0b232"/>',
+
+    // DND: do voi gach ngang trang o giua
+    dnd:
+      '<rect class="sd-bg" x="0" y="0" width="24" height="24" rx="12" ry="12"/>' +
+      '<rect class="sd-bar" x="6" y="11" width="12" height="2" rx="1"/>',
+
+    // Offline: vong tron xam voi loi den o giua
+    offline:
+      '<circle class="sd-bg" cx="12" cy="12" r="12"/>' +
+      '<circle class="sd-hole" cx="12" cy="12" r="5"/>'
+  };
+  const statusIconEl = statusDot ? statusDot.querySelector('.sd-icon') : null;
+
+  function applyLanyardData(data){
+    if (!data) return;
+
+    // Status dot
+    if (statusDot) {
+      const status = data.discord_status || 'offline';
+      statusDot.classList.remove('online','idle','dnd','offline');
+      statusDot.classList.add(status);
+      statusDot.title = 'Discord: ' + status;
+      if (statusIconEl && STATUS_ICONS[status]) {
+        statusIconEl.innerHTML = STATUS_ICONS[status];
+      }
+    }
+
+    // Discord tip username
+    if (data.discord_user && data.discord_user.username) {
+      const tip = document.querySelector('.link-btn[data-label="Discord"] .copy-tip');
+      if (tip) tip.textContent = 'Copy @' + data.discord_user.username;
+    }
+
+    if (!activityCard || !acType || !acTitle || !acSub) return;
+
+    const activities = Array.isArray(data.activities) ? data.activities : [];
+    let typeLabel = '';
+    let title = '';
+    let sub = '';
+    let art = '';
+    let emoji = '🎮';
+    // Chi xoay khi "Doing nothing.." - KHONG xoay khi co activity (se giu hinh vuong bo goc)
+    isDoingNothing = false;
+    let showBars = false;
+
+    // 1) Spotify (Lanyard co object rieng)
+    if (data.listening_to_spotify && data.spotify) {
+      typeLabel = 'Listening to Spotify';
+      title = data.spotify.song || '—';
+      sub = data.spotify.artist || data.spotify.album || '';
+      art = data.spotify.album_art_url || '';
+      emoji = '♪';
+      isDoingNothing = false;
+      showBars = true;
+    } else {
+      // 2) Game / app dang choi (type 0)
+      const playing = activities.find(a => a && a.type === 0);
+      // 3) Spotify activity fallback (type 2)
+      const spotifyAct = activities.find(a => a && a.type === 2 && (a.name === 'Spotify' || a.name === 'spotify'));
+      // 4) Custom status (type 4)
+      const custom = activities.find(a => a && a.type === 4);
+
+      if (playing) {
+        typeLabel = 'Playing';
+        title = playing.name || '—';
+        sub = [playing.details, playing.state].filter(Boolean).join(' · ') || '';
+        // Chi dung anh Discord activity (large_image / small_image)
+        art = resolveActivityImage(playing);
+        emoji = '🎮';
+        isDoingNothing = false;
+        showBars = false;
+      } else if (spotifyAct) {
+        typeLabel = 'Listening to Spotify';
+        title = spotifyAct.details || spotifyAct.name || '—';
+        sub = spotifyAct.state || '';
+        art = resolveActivityImage(spotifyAct);
+        emoji = '♪';
+        isDoingNothing = false;
+        showBars = true;
+      } else if (custom && (custom.state || custom.name)) {
+        typeLabel = 'Custom Status';
+        title = custom.state || custom.name || '—';
+        sub = custom.details || '';
+        art = resolveActivityImage(custom) || DOING_NOTHING_IMG;
+        emoji = '💬';
+        isDoingNothing = false;
+        showBars = false;
+      } else {
+        typeLabel = 'Doing nothing..';
+        title = 'Ở dưới là một dòng chữ';
+        sub = 'Ở trên là một dòng chữ khác.';
+        art = DOING_NOTHING_IMG;
+        emoji = '🌸';
+        isDoingNothing = true;
+        showBars = false;
+      }
+    }
+
+    acType.textContent = typeLabel;
+    acTitle.textContent = title;
+    acSub.textContent = sub || ' ';
+
+    // Spotify progress bar (timestamps tu Lanyard, ms)
+    const isSpotifyNow = !!(data.listening_to_spotify && data.spotify);
+    if (activityCard) {
+      activityCard.classList.toggle('is-spotify', isSpotifyNow);
+    }
+    if (acProgTimer.t) { clearInterval(acProgTimer.t); acProgTimer.t = null; }
+    if (isSpotifyNow && data.spotify.timestamps && data.spotify.timestamps.start && data.spotify.timestamps.end) {
+      const start = data.spotify.timestamps.start;
+      const end = data.spotify.timestamps.end;
+      if (acProgress && acProgFill) {
+        acProgress.classList.add('is-visible');
+        const tickProg = () => {
+          const now = Date.now();
+          const dur = end - start;
+          if (dur <= 0) return;
+          const p = Math.min(1, Math.max(0, (now - start) / dur));
+          acProgFill.style.width = (p * 100).toFixed(2) + '%';
+        };
+        tickProg();
+        acProgTimer.t = setInterval(tickProg, 1000);
+      }
+    } else if (acProgress) {
+      acProgress.classList.remove('is-visible');
+    }
+
+    setActivityArt(art, emoji, isDoingNothing);
+    if (acBars) acBars.style.display = showBars ? 'flex' : 'none';
+    activityCard.classList.add('is-visible');
+  }
+
+  function fetchLanyardRest(){
+    return fetch('https://api.lanyard.rest/v1/users/' + DISCORD_USER_ID, { cache: 'no-store' })
+      .then(r => r.ok ? r.json() : null)
+      .then(j => {
+        if (j && j.success && j.data) applyLanyardData(j.data);
+        else if (j && !j.success) {
+          // User chua join Lanyard server
+          console.warn('[lanyard] REST fail:', j.error || j);
+          applyLanyardData({ discord_status: 'offline', activities: [] });
+        }
+      })
+      .catch((err) => {
+        console.warn('[lanyard] REST error:', err);
+      });
+  }
+
+  function connectLanyard(){
+    if (typeof WebSocket === 'undefined') return;
+    let ws;
+    try { ws = new WebSocket('wss://api.lanyard.rest/socket'); }
+    catch (e) { return; }
+
+    let heartbeatTimer = null;
+
+    ws.addEventListener('open', () => {
+      ws.send(JSON.stringify({ op: 2, d: { subscribe_to_id: DISCORD_USER_ID } }));
+    });
+
+    ws.addEventListener('message', (e) => {
+      let msg; try { msg = JSON.parse(e.data); } catch (_) { return; }
+      if (!msg || msg.op === undefined) return;
+
+      // Hello -> heartbeat
+      if (msg.op === 1 && msg.d && msg.d.heartbeat_interval) {
+        clearTimeout(heartbeatTimer);
+        const beat = () => {
+          if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({ op: 3 }));
+          heartbeatTimer = setTimeout(beat, msg.d.heartbeat_interval);
+        };
+        heartbeatTimer = setTimeout(beat, msg.d.heartbeat_interval);
+      }
+
+      // INIT_STATE / PRESENCE_UPDATE
+      if (msg.op === 0 && msg.d && (msg.t === 'INIT_STATE' || msg.t === 'PRESENCE_UPDATE')) {
+        applyLanyardData(msg.d);
+      }
+    });
+
+    ws.addEventListener('close', () => {
+      clearTimeout(heartbeatTimer);
+      setTimeout(connectLanyard, 5000);
+    });
+
+    ws.addEventListener('error', () => {
+      try { ws.close(); } catch (_) {}
+    });
+  }
+
+  // Bat Lanyard ngay (REST) + poll 12s, WebSocket sau khi enter
+  fetchLanyardRest();
+  setInterval(fetchLanyardRest, 12000);
+
+  let lanyardWsStarted = false;
+  function startLanyardWsOnce(){
+    if (lanyardWsStarted) return;
+    lanyardWsStarted = true;
+    connectLanyard();
+  }
+  let _lanyardPoll = setInterval(() => {
+    if (typeof userEntered !== 'undefined' && userEntered) {
+      startLanyardWsOnce();
+      fetchLanyardRest();
+      clearInterval(_lanyardPoll);
+    }
+  }, 300);
+
+  //   Avatar tilt 3D + light sweep theo chuot
+  const avatarWrap = document.querySelector('.avatar-wrap');
+  const avatarEl = avatarWrap ? avatarWrap.querySelector('.avatar') : null;
+  if (avatarWrap && avatarEl) {
+    avatarWrap.classList.add('tilting');
+    let tiltRaf = 0;
+    function onMove(e){
+      if (tiltRaf) return;
+      tiltRaf = requestAnimationFrame(() => {
+        const r = avatarWrap.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width;
+        const py = (e.clientY - r.top) / r.height;
+        const rx = (0.5 - py) * 12;
+        const ry = (px - 0.5) * 12;
+        avatarEl.style.transform = 'rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg)';
+        avatarEl.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+        avatarEl.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+        tiltRaf = 0;
+      });
+    }
+    function onLeave(){
+      avatarEl.style.transform = 'rotateX(0deg) rotateY(0deg)';
+      avatarEl.style.setProperty('--mx', '50%');
+      avatarEl.style.setProperty('--my', '50%');
+    }
+    avatarWrap.addEventListener('mousemove', onMove);
+    avatarWrap.addEventListener('mouseleave', onLeave);
+    avatarWrap.addEventListener('touchstart', (e) => {
+      const t = e.touches[0]; if (t) onMove(t);
+    }, { passive:true });
+    avatarWrap.addEventListener('touchend', onLeave);
+    avatarWrap.addEventListener('touchmove', (e) => {
+      const t = e.touches[0]; if (t) onMove(t);
+    }, { passive:true });
+  }
+
+  // Chi giu sakura
+  const particleMode = 'sakura';
+
+  //   Tagline rotate (nhieu cau vui, xoay vong)
+  const taglineEl = document.getElementById('tagline');
+  const taglineTextEl = taglineEl ? taglineEl.querySelector('.tagline-text') : null;
+  const taglineMessages = [
+    '367: I\,m brainless',
+    'StackOverflowError: brain not responding.',
+    '418: I\'m a teapot.',
+    '504: Gateway Timeout.',
+    '401: Unauthorized.',
+    '403: Forbidden.',
+    '500: Internal Brain Error.',
+    '404: motivation not found.'
+  ];
+  if (taglineTextEl) {
+    let tlIdx = 0;
+    setInterval(() => {
+      if (!userEntered) return;
+      taglineEl.classList.add('rotating');
+      taglineTextEl.style.opacity = '0';
+      setTimeout(() => {
+        tlIdx = (tlIdx + 1) % taglineMessages.length;
+        taglineTextEl.textContent = taglineMessages[tlIdx];
+        taglineTextEl.style.opacity = '1';
+      }, 280);
+    }, 5200);
+    taglineTextEl.style.transition = 'opacity 0.28s ease';
+  }
+
+  //   Cursor trail (custom images theo CONFIG.trail.images, xoay vong theo thu tu)
+  const trailCanvas = document.getElementById('cursorTrail');
+  const trailCtx = trailCanvas ? trailCanvas.getContext('2d') : null;
+  const trail = [];
+  const MAX_TRAIL = CONFIG.trail.maxOnScreen || 12;
+  const TRAIL_SIZE = CONFIG.trail.size || 28;
+  const TRAIL_FOLLOW = (typeof CONFIG.trail.followSpeed === 'number') ? CONFIG.trail.followSpeed : 0.35;
+  const TRAIL_IMAGES = (CONFIG.trail.images || []).filter(Boolean);
+
+  // Preload trail images
+  const trailImagePool = [];
+  TRAIL_IMAGES.forEach((src, i) => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => { trailImagePool[i] = img; };
+    img.onerror = () => { console.warn('[trail] khong load duoc:', src); };
+    trailImagePool.push(img);
+  });
+  let imgIdx = 0;
+
+  function resizeTrail(){
+    if (!trailCanvas) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.6);
+    trailCanvas.width = Math.floor(window.innerWidth * dpr);
+    trailCanvas.height = Math.floor(window.innerHeight * dpr);
+    trailCanvas.style.width = window.innerWidth + 'px';
+    trailCanvas.style.height = window.innerHeight + 'px';
+    trailCtx.setTransform(dpr,0,0,dpr,0,0);
+  }
+
+  if (trailCanvas && CONFIG.trail.enabled && TRAIL_IMAGES.length) {
+    resizeTrail();
+    window.addEventListener('resize', resizeTrail);
+    document.addEventListener('mousemove', (e) => {
+      if (!userEntered) return;
+      // Lay anh theo thu tu xoay vong
+      const cur = trailImagePool[imgIdx % trailImagePool.length];
+      if (!cur || !cur.complete || cur.naturalWidth === 0) return;
+      imgIdx++;
+      trail.push({
+        x: e.clientX, y: e.clientY,
+        size: TRAIL_SIZE * (0.85 + Math.random() * 0.3),
+        life: 1,
+        img: cur,
+        rot: (Math.random() - 0.5) * 25,
+        rotSpeed: (Math.random() - 0.5) * 1.2,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: -0.2 - Math.random() * 0.35
+      });
+      if (trail.length > MAX_TRAIL) trail.shift();
+    });
+    function drawTrail(){
+      if (!trailCtx) return;
+      trailCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+      for (let i = trail.length - 1; i >= 0; i--) {
+        const t = trail[i];
+        t.life -= 0.018;
+        // Di chuyen nhe theo chuot (co gian)
+        t.x += t.vx;
+        t.y += t.vy;
+        t.rot += t.rotSpeed;
+        if (t.life <= 0) { trail.splice(i, 1); continue; }
+        trailCtx.save();
+        trailCtx.globalAlpha = Math.min(1, t.life) * 0.9;
+        trailCtx.translate(t.x, t.y);
+        trailCtx.rotate(t.rot * Math.PI / 180);
+        const s = t.size * (0.7 + 0.3 * Math.min(1, t.life));
+        trailCtx.drawImage(t.img, -s/2, -s/2, s, s);
+        trailCtx.restore();
+      }
+      requestAnimationFrame(drawTrail);
+    }
+    drawTrail();
+  }
+
+  //   Typing title effect (tab)  
+  const tabFullText = '超ニート // HiyVipPro_123';
+  let tabCharIndex = 0;
+  let tabDeleting = false;
+  function tabTypeLoop(){
+    if (!tabDeleting) {
+      tabCharIndex++;
+      document.title = tabFullText.slice(0, tabCharIndex) + (tabCharIndex < tabFullText.length ? '▌' : '');
+      if (tabCharIndex >= tabFullText.length) { tabDeleting = true; setTimeout(tabTypeLoop, 1800); return; }
+    } else {
+      tabCharIndex--;
+      document.title = tabFullText.slice(0, tabCharIndex) + '▌';
+      if (tabCharIndex <= 0) { tabDeleting = false; setTimeout(tabTypeLoop, 500); return; }
+    }
+    setTimeout(tabTypeLoop, tabDeleting ? 60 : 110);
+  }
+  tabTypeLoop();
+
+  //   Copy link on click  
+  function copyText(text){
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+    return Promise.resolve();
+  }
+  document.querySelectorAll('.link-btn').forEach(btn => {
+    const tip = btn.querySelector('.copy-tip');
+    const label = btn.dataset.label;
+    const url = btn.dataset.copy;
+    const defaultText = 'Copy ' + label;
+    tip.textContent = defaultText;
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      copyText(url).then(() => {
+        tip.textContent = 'Đã copy!';
+        setTimeout(() => { tip.textContent = defaultText; }, 1400);
+      }).catch(() => {
+        tip.textContent = 'Copy thất bại';
+        setTimeout(() => { tip.textContent = defaultText; }, 1400);
+      });
+    });
+  });
+
+  //   Particle canvas animation - curved Sakura + natural water ripple
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d', { alpha:true });
+  let w, h, dpr;
+  // particleMode da duoc khai bao o tren (fxToggle block)
+  let sakuraSprites = [];
+  let ripples = [];
+
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio || 1, 1.6);
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = Math.floor(w * dpr);
+    canvas.height = Math.floor(h * dpr);
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  window.addEventListener('resize', () => {
+    resize();
+    resetParticles();
+    ripples = [];
+  });
+  resize();
+
+  // getCssVar/hexToRgb/mixRgb/rgba da duoc dinh nghia o tren (hoisted)
+
+  function createSakuraSprite(seed){
+    const size = 74;
+    const sprite = document.createElement('canvas');
+    sprite.width = size;
+    sprite.height = size;
+    const sctx = sprite.getContext('2d');
+    const base = hexToRgb(getCssVar('--background-effect-color') || '#ffb7c5');
+    const light = mixRgb(base, { r:255, g:248, b:250 }, 0.58);
+    const mid = mixRgb(base, { r:255, g:210, b:220 }, 0.28);
+    const deep = mixRgb(base, { r:170, g:76, b:98 }, 0.32);
+
+    sctx.translate(size / 2, size / 2);
+    sctx.rotate((seed - 3) * 0.05);
+    sctx.scale(1 + (seed % 2) * 0.06, 1 - (seed % 3) * 0.025);
+    sctx.shadowColor = rgba(base, 0.18);
+    sctx.shadowBlur = 5;
+    sctx.shadowOffsetY = 1;
+
+    const grad = sctx.createLinearGradient(-16, -28, 14, 31);
+    grad.addColorStop(0, rgba(light, 0.94));
+    grad.addColorStop(0.42, rgba(mid, 0.88));
+    grad.addColorStop(1, rgba(deep, 0.78));
+
+    sctx.beginPath();
+    sctx.moveTo(0, -29);
+    // Shape hoi lech va cong nhe de canh hoa khong bi phang/gia.
+    sctx.bezierCurveTo(13 + seed * 0.55, -25, 23, -7, 15, 13);
+    sctx.bezierCurveTo(11, 24, 4, 31, 0, 34);
+    sctx.bezierCurveTo(-6, 30, -15, 22, -18, 8);
+    sctx.bezierCurveTo(-24, -11, -12, -25, 0, -29);
+    sctx.closePath();
+    sctx.fillStyle = grad;
+    sctx.fill();
+
+    sctx.save();
+    sctx.globalCompositeOperation = 'destination-out';
+    sctx.beginPath();
+    sctx.arc(0, -29, 3.4 + (seed % 2), 0, Math.PI * 2);
+    sctx.fill();
+    sctx.restore();
+
+    // Lop sang/toi rat nhe tao cam giac canh hoa co do cong.
+    sctx.save();
+    sctx.globalCompositeOperation = 'source-atop';
+    let curlGrad = sctx.createLinearGradient(-22, -18, 22, 28);
+    curlGrad.addColorStop(0, rgba(light, 0.20));
+    curlGrad.addColorStop(0.48, rgba(light, 0.02));
+    curlGrad.addColorStop(1, rgba(deep, 0.20));
+    sctx.fillStyle = curlGrad;
+    sctx.fillRect(-36, -36, 72, 72);
+
+    const edgeShade = sctx.createRadialGradient(17, 4, 2, 17, 4, 28);
+    edgeShade.addColorStop(0, rgba(deep, 0.18));
+    edgeShade.addColorStop(0.56, rgba(deep, 0.06));
+    edgeShade.addColorStop(1, rgba(deep, 0));
+    sctx.fillStyle = edgeShade;
+    sctx.beginPath();
+    sctx.ellipse(13, 4, 13, 31, -0.28, 0, Math.PI * 2);
+    sctx.fill();
+
+    const edgeLight = sctx.createLinearGradient(-20, -24, -5, 32);
+    edgeLight.addColorStop(0, rgba(light, 0.18));
+    edgeLight.addColorStop(1, rgba(light, 0));
+    sctx.fillStyle = edgeLight;
+    sctx.beginPath();
+    sctx.ellipse(-10, 2, 8, 30, 0.2, 0, Math.PI * 2);
+    sctx.fill();
+    sctx.restore();
+
+    sctx.shadowBlur = 0;
+    sctx.lineWidth = 0.7;
+    sctx.strokeStyle = rgba(light, 0.55);
+    sctx.beginPath();
+    sctx.moveTo(-12, -18);
+    sctx.bezierCurveTo(-20, -2, -13, 19, -1, 31);
+    sctx.stroke();
+
+    sctx.lineWidth = 0.55;
+    sctx.strokeStyle = rgba(deep, 0.16);
+    sctx.beginPath();
+    sctx.moveTo(9, -18);
+    sctx.bezierCurveTo(17, -3, 14, 16, 4, 30);
+    sctx.stroke();
+
+    sctx.lineCap = 'round';
+    sctx.lineWidth = 0.8;
+    sctx.strokeStyle = rgba(deep, 0.26);
+    sctx.beginPath();
+    sctx.moveTo(0, 29);
+    sctx.bezierCurveTo(-2, 10, 1, -8, 0, -25);
+    sctx.stroke();
+
+    sctx.lineWidth = 0.45;
+    sctx.strokeStyle = rgba(deep, 0.15);
+    for (let i = 0; i < 4; i++) {
+      const y = -12 + i * 8;
+      sctx.beginPath();
+      sctx.moveTo(0, y);
+      sctx.bezierCurveTo(5 + i, y + 2, 8 + i * 1.5, y + 5, 10 + i, y + 10);
+      sctx.stroke();
+      sctx.beginPath();
+      sctx.moveTo(-1, y + 1);
+      sctx.bezierCurveTo(-5 - i, y + 3, -8 - i, y + 7, -10 - i, y + 10);
+      sctx.stroke();
+    }
+
+    for (let i = 0; i < 9; i++) {
+      const x = -9 + Math.random() * 18;
+      const y = -14 + Math.random() * 32;
+      sctx.fillStyle = rgba(seed % 2 ? deep : light, 0.12 + Math.random() * 0.12);
+      sctx.beginPath();
+      sctx.arc(x, y, 0.45 + Math.random() * 0.45, 0, Math.PI * 2);
+      sctx.fill();
+    }
+
+    return sprite;
+  }
+
+  function buildSakuraSprites(){
+    sakuraSprites = [];
+    for (let i = 0; i < 8; i++) sakuraSprites.push(createSakuraSprite(i));
+  }
+  buildSakuraSprites();
+
+  function getPetalCount(){
+    const smallPhone = window.matchMedia('(max-width:480px)').matches;
+    const tablet = window.matchMedia('(max-width:900px)').matches;
+    return smallPhone ? 12 : (tablet ? 16 : 22);
+  }
+
+  function getNaturalLandingY(x, depth){
+    // Khong dung mot duong nuoc phang. Moi canh co diem cham rieng,
+    // dao dong nhe theo truc X + random de tranh cam giac co mat nuoc tang hinh.
+    const bottomBase = h - Math.max(28, Math.min(78, h * 0.075));
+    const softZone = 30 + Math.random() * Math.min(78, h * 0.105);
+    const wave = Math.sin((x / Math.max(1, w)) * Math.PI * 2.4 + Math.random() * Math.PI * 2) * 18;
+    const depthDrop = depth * 16;
+    return Math.max(h * 0.72, Math.min(h + 12, bottomBase - softZone + wave + depthDrop));
+  }
+
+  let particles = [];
+
+  function makeSakuraParticle(initial){
+    const depth = Math.random();
+    const startX = Math.random() * w;
+    const landingY = getNaturalLandingY(startX, depth);
+    const baseOpacity = 0.36 + depth * 0.46;
+    return {
+      x: startX,
+      y: initial ? (Math.random() * Math.max(1, landingY) - 150) : (-70 - Math.random() * h * 0.42),
+      targetY: landingY,
+      size: 17 + depth * 18 + Math.random() * 7,
+      speedY: 0.38 + depth * 0.82 + Math.random() * 0.28,
+      speedX: Math.random() * 0.76 - 0.38,
+      rot: Math.random() * 360,
+      rotSpeed: (Math.random() * 1.2 - 0.6) * (0.65 + depth),
+      sway: Math.random() * 2 * Math.PI,
+      swayAmp: 0.28 + Math.random() * 0.72,
+      swaySpeed: 0.007 + Math.random() * 0.014,
+      tilt: Math.random() * 2 * Math.PI,
+      tiltSpeed: 0.014 + Math.random() * 0.026,
+      opacity: baseOpacity,
+      baseOpacity: baseOpacity,
+      sprite: Math.floor(Math.random() * sakuraSprites.length),
+      state: 'falling',
+      settleAge: 0,
+      settleLife: 58 + Math.random() * 52,
+      driftOnWater: Math.random() * 0.2 - 0.1,
+      floatPhase: Math.random() * Math.PI * 2,
+      curvePhase: Math.random() * Math.PI * 2,
+      curveAmount: 0.035 + Math.random() * 0.045,
+      secondRippleDone: false,
+      sinkSpeed: 0.045 + Math.random() * 0.055,
+      settleFromRot: 0,
+      settleTargetRot: 0,
+      settleWobbleAmp: 1.5 + Math.random() * 2.1,
+      settleWobbleSpeed: 1.25 + Math.random() * 0.75
+    };
+  }
+
+  function makeParticle(initial = false){
+    return makeSakuraParticle(initial);
+  }
+
+  function resetParticles(){
+    particles = [];
+    if (!CONFIG.sakura.enabled) return;
+    const count = getPetalCount();
+    for (let i = 0; i < count; i++) particles.push(makeParticle(true));
+  }
+  // Chi reset khi sakura duoc bat
+  if (CONFIG.sakura.enabled) resetParticles();
+
+  function addWaterRipple(x, y, size, alpha, soft = false){
+    if (ripples.length > 26) ripples.shift();
+    const seed = Math.random() * Math.PI * 2;
+    ripples.push({
+      x: x,
+      y: y + 2,
+      age: 0,
+      life: (soft ? 46 : 68) + Math.random() * 24,
+      r: Math.max(5, size * (soft ? 0.18 : 0.25)),
+      maxR: Math.max(34, size * (soft ? 1.05 : 1.75) + Math.random() * 18),
+      alpha: Math.min(soft ? 0.24 : 0.48, alpha * (soft ? 0.38 : 0.58)),
+      stretch: 2.1 + Math.random() * 0.9,
+      wobble: seed,
+      arcStart: seed,
+      arcGap: 0.42 + Math.random() * 0.22
+    });
+  }
+
+  function drawWaterRipples(){
+    if (!ripples.length) return;
+    const base = hexToRgb(getCssVar('--background-effect-color') || '#ffb7c5');
+    const light = mixRgb(base, { r:255, g:248, b:250 }, 0.5);
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+    for (let i = ripples.length - 1; i >= 0; i--) {
+      const r = ripples[i];
+      r.age++;
+      const t = Math.min(1, r.age / r.life);
+      const ease = 1 - Math.pow(1 - t, 2.25);
+      const radius = r.r + (r.maxR - r.r) * ease;
+      const alpha = r.alpha * Math.pow(1 - t, 1.18);
+      if (alpha <= 0.006 || t >= 1) {
+        ripples.splice(i, 1);
+        continue;
+      }
+
+      const wobbleY = Math.sin(r.wobble + t * Math.PI * 3) * 1.4;
+      const rx = radius * (1 + Math.sin(r.wobble + t * 5) * 0.045);
+      const ry = radius / r.stretch;
+
+      ctx.save();
+      ctx.translate(r.x, r.y + wobbleY);
+      ctx.rotate(Math.sin(r.wobble) * 0.05);
+
+      // Vong song chinh: dung arc dut quang de khong giong mot mat nuoc phang co dinh.
+      ctx.globalAlpha = alpha;
+      ctx.strokeStyle = rgba(light, 1);
+      ctx.lineWidth = Math.max(0.55, 1.25 * (1 - t));
+      for (let a = 0; a < Math.PI * 2; a += Math.PI * 0.78) {
+        ctx.beginPath();
+        ctx.ellipse(0, 0, rx, ry, 0, r.arcStart + a, r.arcStart + a + Math.PI * r.arcGap);
+        ctx.stroke();
+      }
+
+      // Vong song nho ben trong.
+      ctx.globalAlpha = alpha * 0.44;
+      ctx.strokeStyle = rgba(base, 1);
+      ctx.lineWidth = Math.max(0.35, 0.72 * (1 - t));
+      ctx.beginPath();
+      ctx.ellipse(0, 0, rx * 0.52, ry * 0.56, 0, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Cham sang rat nhe tai diem cham, tan nhanh.
+      if (t < 0.34) {
+        const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, Math.max(8, rx * 0.25));
+        glow.addColorStop(0, rgba(light, alpha * 0.32));
+        glow.addColorStop(1, rgba(light, 0));
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, rx * 0.34, ry * 0.7, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+    ctx.restore();
+  }
+
+  function drawSakura(p){
+    const sprite = sakuraSprites[p.sprite] || sakuraSprites[0];
+    if (!sprite) return;
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rot * Math.PI / 180);
+    const flip = 0.68 + Math.abs(Math.sin(p.tilt)) * 0.34;
+    const curve = (p.curveAmount || 0.04) * Math.sin((p.curvePhase || 0) + p.tilt * 0.55);
+    ctx.scale(flip, 1);
+    // Skew cuc nhe + sprite da co highlight/shadow tao cam giac canh hoi cong.
+    ctx.transform(1, 0, curve, 1, 0, 0);
+    ctx.globalAlpha = p.opacity;
+    const sw = p.size * 1.08;
+    const sh = p.size * 1.25;
+    ctx.drawImage(sprite, -sw / 2, -sh / 2, sw, sh);
+    ctx.restore();
+  }
+
+  function normalizeDeg(a){
+    a = a % 360;
+    return a < 0 ? a + 360 : a;
+  }
+
+  function shortestDegDiff(from, to){
+    return ((to - from + 540) % 360) - 180;
+  }
+
+  function lerpAngleDeg(from, to, t){
+    return from + shortestDegDiff(from, to) * t;
+  }
+
+  function nearestHorizontalDeg(angle){
+    const a = normalizeDeg(angle);
+    const targets = [90, 270];
+    let best = targets[0];
+    let bestDiff = Math.abs(shortestDegDiff(a, best));
+    for (let i = 1; i < targets.length; i++) {
+      const diff = Math.abs(shortestDegDiff(a, targets[i]));
+      if (diff < bestDiff) {
+        best = targets[i];
+        bestDiff = diff;
+      }
+    }
+    return best + (Math.random() * 10 - 5);
+  }
+
+  function updateSakura(p){
+    if (p.state === 'falling') {
+      p.sway += p.swaySpeed;
+      p.tilt += p.tiltSpeed;
+      p.x += p.speedX + Math.sin(p.sway) * p.swayAmp;
+      p.y += p.speedY;
+      p.rot += p.rotSpeed + Math.sin(p.tilt) * 0.08;
+      if (p.x < -60) p.x = w + 60;
+      if (p.x > w + 60) p.x = -60;
+
+      if (p.y >= p.targetY) {
+        p.y = p.targetY;
+        p.state = 'settling';
+        p.settleAge = 0;
+        p.settleFromRot = p.rot;
+        // Khi cham nuoc, canh hoa xoay ve tu the nam ngang roi lac rat nhe.
+        p.settleTargetRot = nearestHorizontalDeg(p.rot);
+        p.rotSpeed *= 0.15;
+        addWaterRipple(p.x, p.y, p.size, p.opacity);
+      }
+      drawSakura(p);
+      return;
+    }
+
+    p.settleAge++;
+    const t = Math.min(1, p.settleAge / p.settleLife);
+    const fade = 1 - Math.pow(t, 1.18);
+    const horizontalEase = 1 - Math.pow(1 - Math.min(1, t * 3.2), 3);
+    const wobbleFade = Math.pow(1 - t, 0.7);
+    p.opacity = p.baseOpacity * fade;
+    p.x += p.driftOnWater + Math.sin(p.floatPhase + t * Math.PI * 2) * 0.045;
+    // Hoa nam ngang, noi nhe trong khoanh khac ngan roi chim/tan.
+    p.y += p.sinkSpeed + t * 0.14 + Math.sin(p.floatPhase + t * Math.PI * 4.2) * 0.055;
+    p.rot = lerpAngleDeg(p.settleFromRot, p.settleTargetRot, horizontalEase) + Math.sin(p.floatPhase + t * Math.PI * 2 * p.settleWobbleSpeed) * p.settleWobbleAmp * wobbleFade;
+    p.tilt += p.tiltSpeed * 0.18;
+
+    if (!p.secondRippleDone && p.settleAge > 16) {
+      p.secondRippleDone = true;
+      addWaterRipple(p.x + Math.sin(p.floatPhase) * 5, p.y + 1, p.size * 0.75, p.opacity, true);
+    }
+
+    drawSakura(p);
+
+    if (t >= 1 || p.opacity <= 0.012 || p.y > h + 24) {
+      Object.assign(p, makeParticle(false));
+    }
+  }
+
+  function animate(){
+    ctx.clearRect(0,0,w,h);
+    drawWaterRipples();
+    if (CONFIG.sakura.enabled) particles.forEach(p => updateSakura(p));
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+</script>
+</body>
+</html>

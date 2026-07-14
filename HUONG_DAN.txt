@@ -1,0 +1,86 @@
+================================================================
+   HUONG DAN SU DUNG index_final_sakura_curved_float.html
+================================================================
+
+1. CACH MO FILE
+---------------
+- Click dup chuot vao file "index_final_sakura_curved_float.html"
+  de mo bang trinh duyet (Chrome / Edge / Firefox).
+- Lan dau click "Click to enter..." de vao trang.
+- Hoac chuot phai > Open with > Chrome/Edge/Firefox.
+
+2. FILE CAN THIET (dat cung thu muc voi file HTML)
+---------------------------------------------------
+yournameedit.mp4      -> Video nen (neu khong co se hien nen den)
+b.mp4                 -> (cu, co the bo qua)
+cursor.png            -> Cursor mac dinh
+cursor-pointer.png    -> Cursor khi hover vao nut/link
+trail1.png            -> Anh trail so 1 (theo chuot)
+trail2.png            -> Anh trail so 2 (co the them nhieu)
+b.jpg, ...             -> (optional) cac asset khac
+
+3. FILE CONFIG (QUAN TRONG - sua o day)
+---------------------------------------
+Mo file bang Notepad / VS Code, sua block CONFIG o DONG 17-70:
+
+    const CONFIG = {
+      discord:    { userId: '...' },                // ID Discord
+      profile:    { username, kanji, tagline },   // Ten + tagline
+      avatar:     { url, decor },                  // Anh avatar
+      sakura:     { enabled: false, count, colors },
+      trail:      { enabled, images, maxOnScreen, size, followSpeed },
+      background: { video, showVideo },
+      links:      [ { label, url }, ... ],
+      fallbackActivity: { ... },
+      taglineMessages: [ ... ]
+    };
+
+4. CAC VIEC THUONG LAM
+----------------------
+- DOI TEN: sua CONFIG.profile.username
+- DOI KANJI: sua CONFIG.profile.kanji
+- DOI AVATAR: sua CONFIG.avatar.url (anh .png/.jpg/.webp)
+- DOI LINK: sua CONFIG.links (them bot sua tuy y)
+- BAT/TAT SAKURA: CONFIG.sakura.enabled = true/false
+- BAT/TAT TRAIL: CONFIG.trail.enabled = true/false
+- THEM ANH TRAIL: them duong dan file vao CONFIG.trail.images[]
+- DOI VIDEO NEN: sua CONFIG.background.video
+- DOI TAGLINE XOAY VONG: sua CONFIG.taglineMessages[]
+- DOI FALLBACK KHI OFFLINE: sua CONFIG.fallbackActivity
+
+5. DISCORD LIVE STATUS (OPTIONAL)
+---------------------------------
+- Can join server Lanyard: https://discord.gg/lanyard
+- Sua CONFIG.discord.userId thanh ID Discord cua ban
+- Khi online, status hien thi real-time
+- Spotify dang nghe se hien progress bar
+
+6. CURSOR CUSTOM (OPTIONAL)
+---------------------------
+- File cursor.png (mac dinh, 32x32 nen)
+- File cursor-pointer.png (khi hover link)
+- Neu file khong load duoc trinh duyet se dung cursor he thong
+
+7. KHAC PHUC SU CO
+------------------
+[!] Click "Click to enter..." khong duoc?
+    -> Mo Console (F12), kiem tra loi JS. Neu thay "CONFIG is not defined"
+       ban can move CONFIG block len TRUOC tag <script> chay sau.
+
+[!] Status Discord luon offline?
+    -> Ban chua join server Lanyard. Vao https://discord.gg/lanyard roi /join.
+
+[!] Cursor khong hien thi?
+    -> Thu dung file cursor.png < 10KB, kich thuoc chuan 32x32 px.
+
+[!] Trail khong xuat hien?
+    -> Kiem tra file trail1.png, trail2.png co trong thu muc khong.
+    -> Console se canh bao "[trail] khong load duoc" neu sai duong dan.
+
+[!] Sakura roi qua nhieu / khong muon?
+    -> CONFIG.sakura.enabled = false
+    -> CONFIG.sakura.count.desktop de giam so canh hoa
+
+================================================================
+EOF
+================================================================
